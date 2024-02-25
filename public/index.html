@@ -7,14 +7,16 @@
     <title>My Simple HTML Page</title>
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <!-- Add your CSS file here -->
+    <script
+      src="https://unpkg.com/htmx.org@1.9.10"
+      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <h1>Hello, World!</h1>
     <p>This is a simple HTML boilerplate.</p>
 
-    <button hx-post="clicked" hx-swap="innerHTML">Click Me</button>
-
-    <!-- Add your JavaScript file here -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <button hx-get="/clicked" hx-swap="outerHTML">Click Me</button>
   </body>
 </html>
