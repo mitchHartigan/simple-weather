@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 
 app.get("/clicked", (req, res) => {
-  res.send(`<h1>Ayy lmao</h1>`);
+  console.log("req", req.body);
+  res.sendFile("views/component.html", { root: __dirname });
 });
 
 app.listen(port, () => {

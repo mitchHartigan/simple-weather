@@ -12,7 +12,8 @@ app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 app.use(express_1.default.static("public"));
 app.get("/clicked", (req, res) => {
-    res.send(`<h1>Ayy lmao</h1>`);
+    console.log("req", req.body);
+    res.sendFile("views/component.html", { root: __dirname });
 });
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
