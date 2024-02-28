@@ -4,19 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>My Simple HTML Page</title>
-    <!-- <link rel="stylesheet" href="style.css" /> -->
-    <!-- Add your CSS file here -->
+    <title>My Simple Weather App</title>
+
+    <!--HTMX JS-->
     <script
       src="https://unpkg.com/htmx.org@1.9.10"
       integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
       crossorigin="anonymous"
     ></script>
+    <!--Leaflet CSS-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <!--Leaflet JS-->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <!--Lottie JS-->
+    <script src="map.js" async></script>
   </head>
+
   <body>
     <h1>Hello, World!</h1>
     <p>This is a simple HTML boilerplate.</p>
-
-    <button hx-get="/clicked" hx-swap="outerHTML">Click Me</button>
+    <div id="samplemap" style="width: 900px; height: 450px"></div>
+    <img
+      src="./weather-icons/hail.svg"
+      alt="hail animated icon"
+      width="120px"
+      height="120px"
+    />
   </body>
 </html>
