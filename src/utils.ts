@@ -14,8 +14,6 @@ export async function getForecastRegion(
   console.log("url", url);
   const response = await fetch(url);
   const result: any = await response.json();
-  // console.log("region result", result);
-  // console.log("forecastOffice", result.properties.relativeLocation.geometry);
   const endpoint = result.properties.forecast;
   return endpoint;
 }
@@ -23,6 +21,7 @@ export async function getForecastRegion(
 export async function getWeeklyForecast(url: URL) {
   const response = await fetch(url);
   const result: any = await response.json();
+  console.log("result", result);
   const { periods } = result.properties;
   const { coordinates } = result.geometry;
   const polygonCoords = formatPolygon(coordinates[0]);
