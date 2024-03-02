@@ -14,7 +14,8 @@ export async function getForecastRegion(
   console.log("url", url);
   const response = await fetch(url);
   const result: any = await response.json();
-  console.log("region result", result);
+  // console.log("region result", result);
+  // console.log("forecastOffice", result.properties.relativeLocation.geometry);
   const endpoint = result.properties.forecast;
   return endpoint;
 }
@@ -23,6 +24,20 @@ export async function getWeeklyForecast(url: URL) {
   const response = await fetch(url);
   const result: any = await response.json();
   const { periods } = result.properties;
-  console.log("forecast result", periods);
-  return periods;
+  const { coordinates } = result.geometry;
+  const polygonCoords = formatPolygon(coordinates[0]);
+  return { periods, polygonCoords };
+}
+
+function formatPolygon(coordinates: any) {
+  // strip duplicate starting coordinate.
+  coordinates.splice(4, 1);
+
+  // put latitude first in front of longitude. Not sure
+  // why they are reversed in weather gov API response...
+  for (let coordinate of coordinates) {
+    coordinate.reverse();
+  }
+
+  return coordinates;
 }

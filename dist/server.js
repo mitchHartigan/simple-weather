@@ -18,7 +18,7 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
     const { latitude, longitude } = (0, utils_1.parseCoordinates)(req.params.coordinateStr);
     const region = await (0, utils_1.getForecastRegion)(latitude, longitude);
     const forecast = await (0, utils_1.getWeeklyForecast)(region);
-    res.send(forecast);
+    res.json(forecast);
 });
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
