@@ -18,12 +18,17 @@ export async function getForecastRegion(
   return endpoint;
 }
 
+export function parseIconUrl(iconURL: string) {
+  let fragments = iconURL.split("/");
+}
+
 export async function getWeeklyForecast(url: URL) {
   const response = await fetch(url);
   const result: any = await response.json();
   console.log("result", result);
   const { periods } = result.properties;
   const { coordinates } = result.geometry;
+  console.log("periods", periods);
   const polygonCoords = formatPolygon(coordinates[0]);
   return { periods, polygonCoords };
 }

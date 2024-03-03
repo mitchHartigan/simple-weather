@@ -1,6 +1,6 @@
-var mapOptions = {
+let mapOptions = {
   center: [33.4693663, -117.6577678],
-  zoom: 8,
+  zoom: 6,
 };
 
 let forecast = {
@@ -17,8 +17,8 @@ const testCoordinates = [
   [33.4860561, -117.6474688],
 ];
 
-var map = new L.map("samplemap", mapOptions);
-var layer = new L.TileLayer(
+const map = new L.map("samplemap", mapOptions);
+const layer = new L.TileLayer(
   "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 );
 
