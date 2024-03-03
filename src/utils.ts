@@ -19,19 +19,26 @@ export async function getForecastRegion(
 }
 
 export function parseIconUrl(iconURL: string) {
-  let fragments = iconURL.split("/");
+  // parses icon image name from icon endpoint url
+  let fragments = iconURL.split("?")[0].split("/");
+  return fragments.at(-1);
 }
 
 export async function getWeeklyForecast(url: URL) {
   const response = await fetch(url);
   const result: any = await response.json();
-  console.log("result", result);
+  // console.log("result", result);
   const { periods } = result.properties;
+  // console.log("periods", periods);
   const { coordinates } = result.geometry;
-  console.log("periods", periods);
   const polygonCoords = formatPolygon(coordinates[0]);
-  return { periods, polygonCoords };
+  return {
+    ...result,
+    geometry: { type: "Polygon", coordinates: polygonCoords },
+  };
 }
+
+export function getCurrentWeather(weeklyForecast: Object) {}
 
 function formatPolygon(coordinates: any) {
   // strip duplicate starting coordinate.

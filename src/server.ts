@@ -24,6 +24,7 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
 app.get("/dummy", (req, res) => {
+  console.log("dummy hit");
   res.render("layouts/main", {
     message: "Handle time baby",
   });
