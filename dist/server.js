@@ -14,7 +14,7 @@ app.use(express_1.default.json());
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 app.use((0, cors_1.default)());
-app.use(express_1.default.static("public"));
+app.use(express_1.default.static("public-vite"));
 app.engine("hbs", (0, express_handlebars_1.engine)({ defaultLayout: "main", extname: ".hbs" }));
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
