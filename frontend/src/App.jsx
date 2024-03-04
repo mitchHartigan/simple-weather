@@ -27,6 +27,7 @@ function App() {
         const forecast = await getForecast(lat, lng);
         console.log("forecast", forecast);
         setRegionBounds(forecast.geometry.coordinates);
+        map.fitBounds(forecast.geometry.coordinates);
       },
     });
 
