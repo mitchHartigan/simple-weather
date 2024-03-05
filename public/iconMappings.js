@@ -1,5 +1,5 @@
-export const mappings: any = {
-  daytime: {
+const mappings = {
+  day: {
     skc: "clear-day",
     few: "cloudy",
     sct: "overcast",
@@ -31,11 +31,11 @@ export const mappings: any = {
     smoke: "smoke",
     haze: "haze",
     hot: "thermometer-warmer",
-    cold: "thermometer-cooler",
+    cold: "thermometer-colder",
     blizzard: "snow",
     fog: "fog",
   },
-  nightime: {
+  night: {
     skc: "clear-night",
     few: "overcast-night",
     sct: "overcast-night",
@@ -45,7 +45,7 @@ export const mappings: any = {
     wind_few: "overcast-night",
     wind_sct: "overcast-night",
     wind_bkn: "overcast-night",
-    wind_ovc: "overcast-day-night",
+    wind_ovc: "overcast-night",
     snow: "partly-cloudy-night-snow",
     rain_snow: "partly-cloudy-night-sleet",
     rain_sleet: "partly-cloudy-night-sleet",
@@ -67,8 +67,10 @@ export const mappings: any = {
     smoke: "smoke",
     haze: "haze",
     hot: "thermometer-warmer",
-    cold: "thermometer-cooler",
+    cold: "thermometer-colder",
     blizzard: "snow",
     fog: "fog",
   },
 };
+
+module.exports = { mappings };

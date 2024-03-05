@@ -1,40 +1,37 @@
 // take coordinates as string in url endpoint.
 // coordinates are going to be supplied by us from the leaflet map and not by the end user.
-import { mappings } from "../public/iconMappings";
+const { mappings } = require("../public/iconMappings");
 
-export function parseCoordinates(str: String) {
+function parseCoordinates(str) {
   const coords = str.split(",");
   return { latitude: coords[0], longitude: coords[1] };
 }
 
-export async function getForecastRegion(
-  latitude: any,
-  longitude: any
-): Promise<URL> {
+async function getForecastRegion(latitude, longitude) {
   const url = `https://api.weather.gov/points/${latitude},${longitude}`;
   console.log("url", url);
   const response = await fetch(url);
-  const result: any = await response.json();
+  const result = await response.json();
   const endpoint = result.properties.forecast;
   return endpoint;
 }
 
-export function parseIconUrl(iconURL: string) {
+function parseIconUrl(iconURL) {
   // parses icon image name from icon endpoint url
   let fragments = iconURL.split("?")[0].split("/");
-  const iconCode: any = fragments.at(-1);
-  const type: any = fragments.at(-2);
-  console.log("icon?", mappings[type][iconCode]);
+  const iconCode = fragments.at(6);
+  const type = fragments.at(5);
+  console.log({ type, iconCode });
   return mappings[type][iconCode];
 }
 
-function createLocalImgUrls(periods: any) {
+function createLocalImgUrls(periods) {
   const newPeriods = [];
   for (let period of periods) {
     let iconCode = parseIconUrl(period.icon);
     const newPeriod = {
       ...period,
-      icon: `http://localhost:3000/weather-icons/${iconCode}.svg`,
+      icon: `${iconCode}.svg`,
     };
     newPeriods.push(newPeriod);
   }
@@ -42,9 +39,9 @@ function createLocalImgUrls(periods: any) {
   return newPeriods;
 }
 
-export async function getWeeklyForecast(url: URL) {
+async function getWeeklyForecast(url) {
   const response = await fetch(url);
-  const result: any = await response.json();
+  const result = await response.json();
   const { periods } = result.properties;
   const { coordinates } = result.geometry;
   const polygonCoords = formatPolygon(coordinates[0]);
@@ -59,9 +56,7 @@ export async function getWeeklyForecast(url: URL) {
   };
 }
 
-export function getCurrentWeather(weeklyForecast: Object) {}
-
-function formatPolygon(coordinates: any) {
+function formatPolygon(coordinates) {
   // strip duplicate starting coordinate.
   coordinates.splice(4, 1);
 
@@ -73,3 +68,5 @@ function formatPolygon(coordinates: any) {
 
   return coordinates;
 }
+
+module.exports = { getWeeklyForecast, getForecastRegion, parseCoordinates };
