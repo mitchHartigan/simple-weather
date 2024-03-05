@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { engine } from "express-handlebars";
 
 import {
   getForecastRegion,
@@ -24,7 +23,6 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
   const { latitude, longitude } = parseCoordinates(req.params.coordinateStr);
   const region = await getForecastRegion(latitude, longitude);
   const forecast = await getWeeklyForecast(region);
-  const { periods } = forecast;
   res.json(forecast);
 });
 

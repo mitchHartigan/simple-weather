@@ -1,5 +1,6 @@
 // take coordinates as string in url endpoint.
 // coordinates are going to be supplied by us from the leaflet map and not by the end user.
+import { mappings } from "../public/iconMappings";
 
 export function parseCoordinates(str: String) {
   const coords = str.split(",");
@@ -21,19 +22,39 @@ export async function getForecastRegion(
 export function parseIconUrl(iconURL: string) {
   // parses icon image name from icon endpoint url
   let fragments = iconURL.split("?")[0].split("/");
-  return fragments.at(-1);
+  const iconCode: any = fragments.at(-1);
+  const type: any = fragments.at(-2);
+  console.log("icon?", mappings[type][iconCode]);
+  return mappings[type][iconCode];
+}
+
+function createLocalImgUrls(periods: any) {
+  const newPeriods = [];
+  for (let period of periods) {
+    let iconCode = parseIconUrl(period.icon);
+    const newPeriod = {
+      ...period,
+      icon: `http://localhost:3000/weather-icons/${iconCode}.svg`,
+    };
+    newPeriods.push(newPeriod);
+  }
+
+  return newPeriods;
 }
 
 export async function getWeeklyForecast(url: URL) {
   const response = await fetch(url);
   const result: any = await response.json();
-  // console.log("result", result);
   const { periods } = result.properties;
-  // console.log("periods", periods);
   const { coordinates } = result.geometry;
   const polygonCoords = formatPolygon(coordinates[0]);
+  const newPeriods = createLocalImgUrls(periods);
   return {
     ...result,
+    properties: {
+      ...result.properties,
+      periods: newPeriods,
+    },
     geometry: { type: "Polygon", coordinates: polygonCoords },
   };
 }

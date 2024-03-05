@@ -32,7 +32,6 @@ function App() {
         setRegionBounds(coordinates);
         map.fitBounds(coordinates);
         setForecast(forecast);
-        console.log("forecast", forecast);
       },
     });
 

@@ -1,8 +1,9 @@
 "use strict";
-// take coordinates as string in url endpoint.
-// coordinates are going to be supplied by us from the leaflet map and not by the end user.
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurrentWeather = exports.getWeeklyForecast = exports.parseIconUrl = exports.getForecastRegion = exports.parseCoordinates = void 0;
+// take coordinates as string in url endpoint.
+// coordinates are going to be supplied by us from the leaflet map and not by the end user.
+const iconMappings_1 = require("../public/iconMappings");
 function parseCoordinates(str) {
     const coords = str.split(",");
     return { latitude: coords[0], longitude: coords[1] };
@@ -20,9 +21,10 @@ exports.getForecastRegion = getForecastRegion;
 function parseIconUrl(iconURL) {
     // parses icon image name from icon endpoint url
     let fragments = iconURL.split("?")[0].split("/");
-    console.log("fragments", fragments);
     const iconCode = fragments.at(-1);
     const type = fragments.at(-2);
+    console.log("icon?", iconMappings_1.mappings[type][iconCode]);
+    return iconMappings_1.mappings[type][iconCode];
 }
 exports.parseIconUrl = parseIconUrl;
 function createLocalImgUrls(periods) {
