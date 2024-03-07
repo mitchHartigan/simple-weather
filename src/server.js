@@ -21,9 +21,12 @@ app.use(express.static("public"));
 app.get("/forecast/:coordinateStr", async (req, res) => {
   console.log("forecast hit");
   const { latitude, longitude } = parseCoordinates(req.params.coordinateStr);
-  const region = await getForecastRegion(latitude, longitude);
-  const forecast = await getWeeklyForecast(region);
-  res.json(forecast);
+  const { dailyEndpoint, hourlyEndpoint } = await getForecastRegion(
+    latitude,
+    longitude
+  );
+  const dailyForecast = await getWeeklyForecast(dailyEndpoint);
+  res.json(dailyForecast);
 });
 
 app.listen(port, () => {

@@ -12,8 +12,10 @@ async function getForecastRegion(latitude, longitude) {
   console.log("url", url);
   const response = await fetch(url);
   const result = await response.json();
-  const endpoint = result.properties.forecast;
-  return endpoint;
+  console.log("result", result);
+  const dailyEndpoint = result.properties.forecast;
+  const hourlyEndpoint = result.properties.forecastHourly;
+  return { dailyEndpoint, hourlyEndpoint };
 }
 
 function parseIconUrl(iconURL) {
@@ -56,6 +58,12 @@ async function getWeeklyForecast(url) {
   };
 }
 
+async function getHourlyForecast(url) {
+  const response = await fetch(url);
+  const result = await response.json();
+  return result.properties.periods;
+}
+
 function formatPolygon(coordinates) {
   // strip duplicate starting coordinate.
   coordinates.splice(4, 1);
@@ -69,4 +77,9 @@ function formatPolygon(coordinates) {
   return coordinates;
 }
 
-module.exports = { getWeeklyForecast, getForecastRegion, parseCoordinates };
+module.exports = {
+  getWeeklyForecast,
+  getHourlyForecast,
+  getForecastRegion,
+  parseCoordinates,
+};

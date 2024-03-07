@@ -5,7 +5,8 @@ import {
   FeatureGroup,
   Rectangle,
 } from "react-leaflet";
-import { Overview } from "./Overview";
+
+import { Overview } from "./components/Overview";
 import { testForecast } from "./testForecast";
 import "leaflet/dist/leaflet.css";
 import "./styles.css";
@@ -32,6 +33,7 @@ function App() {
         setRegionBounds(coordinates);
         map.fitBounds(coordinates);
         setForecast(forecast);
+        console.log("forecast", forecast);
       },
     });
 
