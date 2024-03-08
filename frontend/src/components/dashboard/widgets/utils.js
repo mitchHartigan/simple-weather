@@ -4,7 +4,7 @@ function parseLocalTime(timeStr) {
 }
 
 export function genGraphData(hourlyForecast) {
-  const periods = hourlyForecast.slice(0, 7);
+  const periods = hourlyForecast.slice(0, 8);
   const graphData = [];
 
   for (let period of periods) {
@@ -16,6 +16,5 @@ export function genGraphData(hourlyForecast) {
     graphData.push(point);
   }
 
-  console.log("graphData", graphData);
   return graphData;
 }
