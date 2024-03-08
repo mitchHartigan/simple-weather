@@ -2,7 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getForecast } from "../API";
 import { MapView } from "../components/dashboard/widgets/MapView";
-import { AtAGlance } from "../components/dashboard/widgets/index";
+import {
+  AtAGlance,
+  DailyForecast,
+} from "../components/dashboard/widgets/index";
 import { sampleForecast } from "../sampleForecast";
 
 /* 
@@ -43,6 +46,7 @@ export default function Dashboard() {
     <main>
       <MapView forecast={forecast} updateCoords={updateCoords} />
       <AtAGlance forecast={forecast} />
+      <DailyForecast forecast={forecast} />
     </main>
   );
 }

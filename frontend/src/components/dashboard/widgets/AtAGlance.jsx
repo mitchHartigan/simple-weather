@@ -26,7 +26,8 @@ export function AtAGlance(props) {
 }
 
 const Container = styled.div`
-  width: 500px;
+  margin: 20px;
+  width: 600px;
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
   background-color: gray;
