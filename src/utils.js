@@ -74,99 +74,51 @@ function parseForecastDetails(weeklyForecast) {
   };
 }
 
-function fetchFromApiWithRetries(options, maxRetries, callback) {
+async function fetchWithRetries(url, maxRetries, delay) {
   let retries = 0;
-
-  function makeRequest() {
-    const req = https.request(options, (res) => {
-      let data = "";
-
-      res.on("data", (chunk) => {
-        data += chunk;
-      });
-
-      res.on("end", () => {
-        if (res.statusCode === 200) {
-          callback(null, JSON.parse(data));
-        } else {
-          retries++;
-          if (retries <= maxRetries) {
-            console.warn(
-              `API request failed (Status ${res.statusCode}). Retrying...`
-            );
-            makeRequest();
-          } else {
-            callback(
-              new Error(`API request failed after ${maxRetries} retries`)
-            );
-          }
-        }
-      });
-    });
-
-    req.on("error", (err) => {
-      retries++;
-      if (retries <= maxRetries) {
-        console.warn(`API request failed (${err.message}). Retrying...`);
-        makeRequest();
+  while (retries < maxRetries) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
       } else {
-        callback(new Error(`API request failed after ${maxRetries} retries`));
+        console.error(`Request failed with status ${response.status}`);
       }
-    });
-
-    req.end();
-  }
-
-  makeRequest();
-}
-
-function withRetries(url, maxRetries, callback) {
-  let retries = 0;
-
-  async function request() {
-    console.log("retries", retries);
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/ld+json",
-      },
-    });
-    const result = await response.json();
-    if (result.status === 200) callback(result);
-    if (retries === maxRetries) throw new Error(`Failed after ${maxRetries}`);
-
+    } catch (error) {
+      console.error(`Error fetching data: ${error.message}`);
+    }
     retries++;
 
-    setTimeout(() => {
-      console.log("Request failed. Retrying...");
-      request();
-    }, 5000);
+    if (retries < maxRetries) {
+      console.log(`Retrying in ${delay} milliseconds...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
-
-  request();
+  console.error(
+    `Exceeded maximum retries (${maxRetries}). Unable to fetch data.`
+  );
+  return null;
 }
 
 async function getWeeklyForecast(url) {
-  let weeklyForecast;
+  const result = await fetchWithRetries(url, 3, 2000);
 
-  withRetries(url, 3, (result) => {
-    const { periods } = result?.properties;
-    const { coordinates } = result?.geometry;
-    const polygonCoords = formatPolygon(coordinates[0]);
-    const newPeriods = createLocalImgUrls(periods);
+  console.log("should have result obj ->", result);
 
-    weeklyForecast = {
-      ...result,
-      properties: {
-        ...result.properties,
-        periods: newPeriods,
-      },
-      geometry: { type: "Polygon", coordinates: polygonCoords },
-    };
-  });
+  const { periods } = result?.properties;
+  const { coordinates } = result?.geometry;
+  const polygonCoords = formatPolygon(coordinates[0]);
+  const newPeriods = createLocalImgUrls(periods);
 
-  console.log("weeklyForecast", weeklyForecast);
-  return weeklyForecast;
+  return {
+    ...result,
+    properties: {
+      ...result.properties,
+      periods: newPeriods,
+    },
+    geometry: { type: "Polygon", coordinates: polygonCoords },
+  };
 }
 
 async function getHourlyForecast(url) {

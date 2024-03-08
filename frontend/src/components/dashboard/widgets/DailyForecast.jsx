@@ -7,12 +7,27 @@ import { genGraphData } from "./utils";
 export function DailyForecast(props) {
   const { hourlyForecast } = props.forecast;
   const { detailedForecast } = props.forecast.details.currentPeriod;
-  const [graphData, setGraphData] = useState([]);
 
-  useEffect(() => {
-    const data = genGraphData(hourlyForecast);
-    setGraphData(data);
-  }, []);
+  const graphData = genGraphData(hourlyForecast);
+
+  const Printer = (props) => {
+    console.log({ props });
+    return <p>{props.value}</p>;
+  };
+
+  function renderLabel({ x, y, value }) {
+    return (
+      <text
+        x={x + 10}
+        y={y - 15}
+        fill="white"
+        textAnchor="end"
+        dominantBaseline="central"
+      >
+        {value}
+      </text>
+    );
+  }
 
   return (
     <Container>
@@ -23,13 +38,20 @@ export function DailyForecast(props) {
               domain={["dataMin-2", "dataMax"]}
               axisLine={false}
               tick={false}
+              width={10}
+              padding={{ top: 18 }}
             />
-            <XAxis dataKey="time" />
+            <XAxis
+              dataKey="time"
+              padding={{ left: 15, right: 15 }}
+              tick={{ fill: "white" }}
+            />
             <Area
               dataKey="temperature"
               stroke="blue"
               fill="lightblue"
               strokeWidth={3}
+              label={renderLabel}
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -41,6 +63,7 @@ export function DailyForecast(props) {
 
 const Container = styled.div`
   padding: 20px;
+  padding-top: 40px;
   margin: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
@@ -51,8 +74,8 @@ const ChartBody = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 35vw;
-  height: 13vh;
+  width: 30vw;
+  height: 15vh;
 `;
 
 const Text = styled.p``;
