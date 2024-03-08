@@ -63,6 +63,7 @@ const Container = styled.div`
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
   background-color: gray;
+  width: 700px;
 `;
 
 const ChartBody = styled.div`

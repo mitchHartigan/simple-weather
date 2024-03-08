@@ -32,6 +32,7 @@ export default function Dashboard() {
   async function updateCoords(newCoords) {
     const { lat, lng } = newCoords;
     setLoading(true);
+    setForecast({ ...forecast, coordinates: newCoords });
     const newForecast = await getForecast(lat, lng);
     setForecast(newForecast);
     setLoading(false);

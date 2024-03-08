@@ -5,6 +5,7 @@ import {
   FeatureGroup,
   Rectangle,
   useMap,
+  Circle,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
@@ -25,6 +26,11 @@ export function MapView(props) {
     }, [bounds]);
 
     return null;
+  };
+
+  const Cursor = (props) => {
+    const { loading } = props;
+    return <Circle center={coordinates} radius={100} fill="blue" />;
   };
 
   const ClickListener = () => {
@@ -50,6 +56,7 @@ export function MapView(props) {
           <FeatureGroup pathOptions={{ color: "green" }}>
             <Rectangle bounds={regionBounds} />
           </FeatureGroup>
+          <Cursor loading={loading} />
           <Updater bounds={regionBounds} />
         </MapContainer>
       </div>
