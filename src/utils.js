@@ -74,22 +74,99 @@ function parseForecastDetails(weeklyForecast) {
   };
 }
 
-async function getWeeklyForecast(url) {
-  const response = await fetch(url);
-  const result = await response.json();
-  const { periods } = result.properties;
-  const { coordinates } = result.geometry;
-  const polygonCoords = formatPolygon(coordinates[0]);
-  const newPeriods = createLocalImgUrls(periods);
+function fetchFromApiWithRetries(options, maxRetries, callback) {
+  let retries = 0;
 
-  return {
-    ...result,
-    properties: {
-      ...result.properties,
-      periods: newPeriods,
-    },
-    geometry: { type: "Polygon", coordinates: polygonCoords },
-  };
+  function makeRequest() {
+    const req = https.request(options, (res) => {
+      let data = "";
+
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      res.on("end", () => {
+        if (res.statusCode === 200) {
+          callback(null, JSON.parse(data));
+        } else {
+          retries++;
+          if (retries <= maxRetries) {
+            console.warn(
+              `API request failed (Status ${res.statusCode}). Retrying...`
+            );
+            makeRequest();
+          } else {
+            callback(
+              new Error(`API request failed after ${maxRetries} retries`)
+            );
+          }
+        }
+      });
+    });
+
+    req.on("error", (err) => {
+      retries++;
+      if (retries <= maxRetries) {
+        console.warn(`API request failed (${err.message}). Retrying...`);
+        makeRequest();
+      } else {
+        callback(new Error(`API request failed after ${maxRetries} retries`));
+      }
+    });
+
+    req.end();
+  }
+
+  makeRequest();
+}
+
+function withRetries(url, maxRetries, callback) {
+  let retries = 0;
+
+  async function request() {
+    console.log("retries", retries);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/ld+json",
+      },
+    });
+    const result = await response.json();
+    if (result.status === 200) callback(result);
+    if (retries === maxRetries) throw new Error(`Failed after ${maxRetries}`);
+
+    retries++;
+
+    setTimeout(() => {
+      console.log("Request failed. Retrying...");
+      request();
+    }, 5000);
+  }
+
+  request();
+}
+
+async function getWeeklyForecast(url) {
+  let weeklyForecast;
+
+  withRetries(url, 3, (result) => {
+    const { periods } = result?.properties;
+    const { coordinates } = result?.geometry;
+    const polygonCoords = formatPolygon(coordinates[0]);
+    const newPeriods = createLocalImgUrls(periods);
+
+    weeklyForecast = {
+      ...result,
+      properties: {
+        ...result.properties,
+        periods: newPeriods,
+      },
+      geometry: { type: "Polygon", coordinates: polygonCoords },
+    };
+  });
+
+  console.log("weeklyForecast", weeklyForecast);
+  return weeklyForecast;
 }
 
 async function getHourlyForecast(url) {
