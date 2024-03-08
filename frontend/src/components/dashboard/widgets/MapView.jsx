@@ -7,22 +7,30 @@ import {
   useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import "./MapStyles.css";
+import "./Map.css";
+import { useEffect } from "react";
 
 export function MapView(props) {
+  const { updateCoords } = props;
   const { regionBounds, coordinates } = props.forecast;
   const { lat, lng } = coordinates;
 
   const Updater = (props) => {
-    const { regionBounds } = props;
+    const { bounds } = props;
     const map = useMap();
+
+    useEffect(() => {
+      map.fitBounds(bounds, { animate: true, maxZoom: 12 });
+    }, [bounds]);
+
+    return null;
   };
 
   const ClickListener = () => {
     const map = useMapEvents({
       click(evt) {
-        const { lat, lng } = evt.latlng;
-        console.log({ lat, lng });
+        const { latlng } = evt;
+        updateCoords(latlng);
       },
     });
 
@@ -41,7 +49,7 @@ export function MapView(props) {
           <FeatureGroup pathOptions={{ color: "green" }}>
             <Rectangle bounds={regionBounds} />
           </FeatureGroup>
-          <Updater />
+          <Updater bounds={regionBounds} />
         </MapContainer>
       </div>
     </section>

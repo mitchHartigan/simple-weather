@@ -21,6 +21,12 @@ const defaultForecast = {
 export default function Dashboard() {
   const [forecast, setForecast] = useState(defaultForecast);
 
+  async function updateCoords(newCoords) {
+    const { lat, lng } = newCoords;
+    const newForecast = await getForecast(lat, lng);
+    setForecast(newForecast);
+  }
+
   useEffect(() => {
     async function mountState() {
       const { lat, lng } = forecast.coordinates;
@@ -32,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <main>
-      <MapView forecast={forecast} />
+      <MapView forecast={forecast} updateCoords={updateCoords} />
       <AtAGlance forecast={forecast} />
     </main>
   );

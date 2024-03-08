@@ -7,8 +7,9 @@ function parseCoordinates(str) {
   return { lat: coords[0], lng: coords[1] };
 }
 
-async function getForecastRegion(latitude, longitude) {
-  const url = `https://api.weather.gov/points/${latitude},${longitude}`;
+async function getForecastRegion(lat, lng) {
+  console.log({ lat, lng });
+  const url = `https://api.weather.gov/points/${lat},${lng}`;
   const response = await fetch(url);
   const result = await response.json();
   const dailyEndpoint = result.properties.forecast;

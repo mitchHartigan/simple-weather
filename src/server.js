@@ -24,6 +24,7 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
   console.log("forecast hit");
   // first request to get the forecast region from the lat/long coordinates.
   // request returns two endpoints for the hourly and weekly forecast for the requested region.
+  console.log(req.params.coordinateStr);
   const { lat, lng } = parseCoordinates(req.params.coordinateStr);
   const { dailyEndpoint, hourlyEndpoint } = await getForecastRegion(lat, lng);
 
