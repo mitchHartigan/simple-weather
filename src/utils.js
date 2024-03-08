@@ -46,7 +46,10 @@ function parseForecastDetails(weeklyForecast) {
   return {
     coordinates: geometry.coordinates,
     dailyForecast: periods,
-    details,
+    details: {
+      ...details,
+      currentPeriod: periods[0],
+    },
   };
 }
 
@@ -57,6 +60,7 @@ async function getWeeklyForecast(url) {
   const { coordinates } = result.geometry;
   const polygonCoords = formatPolygon(coordinates[0]);
   const newPeriods = createLocalImgUrls(periods);
+
   return {
     ...result,
     properties: {

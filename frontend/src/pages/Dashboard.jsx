@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { getForecast } from "../API";
 import { MapView } from "../components/dashboard/widgets/MapView";
 import { AtAGlance } from "../components/dashboard/widgets/index";
+import { sampleForecast } from "../sampleForecast";
 
-// do we actually need to store these coordinates? Maybe we display them in the ForecastDetails widget.
+/* 
 const defaultForecast = {
   coordinates: { lat: 33.4693663, lng: -117.6577678 },
   regionBounds: [
@@ -13,13 +14,15 @@ const defaultForecast = {
     [33.4637954, -117.6429692],
     [33.4860561, -117.6474688],
   ],
+  details: {},
   dailyForecast: {},
   hourlyForecast: {},
   astralForecast: {},
 };
+*/
 
 export default function Dashboard() {
-  const [forecast, setForecast] = useState(defaultForecast);
+  const [forecast, setForecast] = useState(sampleForecast);
 
   async function updateCoords(newCoords) {
     const { lat, lng } = newCoords;
