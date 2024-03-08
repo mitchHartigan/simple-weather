@@ -60,7 +60,7 @@ function createLocalImgUrls(periods) {
   return newPeriods;
 }
 
-function parseForecastDetails(weeklyForecast) {
+function parseForecastDetails(weeklyForecast, hourlyForecast) {
   const { properties, geometry } = weeklyForecast;
   const { periods, ...details } = properties;
 
@@ -69,7 +69,7 @@ function parseForecastDetails(weeklyForecast) {
     dailyForecast: periods,
     details: {
       ...details,
-      currentPeriod: periods[0],
+      currentPeriod: hourlyForecast[0],
     },
   };
 }

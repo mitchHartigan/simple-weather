@@ -32,8 +32,10 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
   const weeklyForecast = await getWeeklyForecast(dailyEndpoint);
   const hourlyForecast = await getHourlyForecast(hourlyEndpoint);
 
-  const { dailyForecast, details, coordinates } =
-    parseForecastDetails(weeklyForecast);
+  const { dailyForecast, details, coordinates } = parseForecastDetails(
+    weeklyForecast,
+    hourlyForecast
+  );
 
   const forecast = {
     coordinates: { lat, lng },
