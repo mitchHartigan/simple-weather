@@ -24,6 +24,23 @@ export function DailyForecast(props) {
     );
   }
 
+  function XTick(props) {
+    const { x, y } = props;
+    const { value } = props.payload;
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="blue"
+        stroke="blue"
+        textAnchor="end"
+        dominantBaseline="central"
+      >
+        {value}
+      </text>
+    );
+  }
+
   return (
     <Container>
       <ChartBody>
@@ -51,10 +68,38 @@ export function DailyForecast(props) {
           </AreaChart>
         </ResponsiveContainer>
       </ChartBody>
+      <IconRow>
+        {graphData.map(({ icon }) => {
+          return (
+            <ImgBox>
+              <Img src={icon} alt="small weather icon" />
+            </ImgBox>
+          );
+        })}
+      </IconRow>
       <Text>{detailedForecast}</Text>
     </Container>
   );
 }
+
+const IconRow = styled.div`
+  width: 30vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Img = styled.img`
+  width: 50px;
+  height: auto;
+`;
 
 const Container = styled.div`
   padding: 20px;

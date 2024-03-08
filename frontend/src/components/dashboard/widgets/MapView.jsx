@@ -29,8 +29,13 @@ export function MapView(props) {
   };
 
   const Cursor = (props) => {
-    const { loading } = props;
-    return <Circle center={coordinates} radius={100} fill="blue" />;
+    return (
+      <Circle
+        center={coordinates}
+        radius={150}
+        pathOptions={{ fill: "blue" }}
+      />
+    );
   };
 
   const ClickListener = () => {
@@ -56,7 +61,7 @@ export function MapView(props) {
           <FeatureGroup pathOptions={{ color: "green" }}>
             <Rectangle bounds={regionBounds} />
           </FeatureGroup>
-          <Cursor loading={loading} />
+          <Cursor />
           <Updater bounds={regionBounds} />
         </MapContainer>
       </div>

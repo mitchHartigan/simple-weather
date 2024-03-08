@@ -103,9 +103,6 @@ async function fetchWithRetries(url, maxRetries, delay) {
 
 async function getWeeklyForecast(url) {
   const result = await fetchWithRetries(url, 3, 2500);
-
-  console.log("should have result obj ->", result);
-
   const { periods } = result?.properties;
   const { coordinates } = result?.geometry;
   const polygonCoords = formatPolygon(coordinates[0]);
@@ -124,7 +121,9 @@ async function getWeeklyForecast(url) {
 async function getHourlyForecast(url) {
   const response = await fetch(url);
   const result = await response.json();
-  return result.properties.periods;
+  const { periods } = result?.properties;
+  const newPeriods = createLocalImgUrls(periods);
+  return newPeriods;
 }
 
 function formatPolygon(coordinates) {

@@ -8,10 +8,11 @@ export function genGraphData(hourlyForecast) {
   const graphData = [];
 
   for (let period of periods) {
-    const { startTime, temperature } = period;
+    const { startTime, temperature, icon } = period;
     const point = {
       time: parseLocalTime(startTime),
-      temperature: temperature,
+      temperature,
+      icon,
     };
     graphData.push(point);
   }
