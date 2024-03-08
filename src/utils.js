@@ -18,9 +18,30 @@ async function getForecastRegion(lat, lng) {
 }
 
 function parseIconUrl(iconURL) {
+  // how about we search the iconUrl string for the matching typecode?
+  /* 
+    iconUrl: https://api.weather.gov/icons/land/day/few?size=medium
+    iconUrl: https://api.weather.gov/icons/land/night/tsra_hi,40/sct?size=medium 
+  */
   // parses icon image name from icon endpoint url
+
+  let iconCode = null;
+  const keys = [
+    ...new Set([...Object.keys(mappings.day), ...Object.keys(mappings.night)]),
+  ];
+
+  for (let key of keys) {
+    if (iconURL.includes(key)) {
+      iconCode = key;
+      break;
+    }
+  }
+
+  if (!iconCode) {
+    console.error("No icon code found.");
+  }
+
   let fragments = iconURL.split("?")[0].split("/");
-  const iconCode = fragments.at(6);
   const type = fragments.at(5);
   return mappings[type][iconCode];
 }

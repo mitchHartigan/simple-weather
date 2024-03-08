@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import {
-  LineChart,
-  AreaChart,
-  Area,
-  Line,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { genGraphData } from "./utils";
 
 export function DailyForecast(props) {
