@@ -102,7 +102,7 @@ async function fetchWithRetries(url, maxRetries, delay) {
 }
 
 async function getWeeklyForecast(url) {
-  const result = await fetchWithRetries(url, 3, 2000);
+  const result = await fetchWithRetries(url, 3, 2500);
 
   console.log("should have result obj ->", result);
 

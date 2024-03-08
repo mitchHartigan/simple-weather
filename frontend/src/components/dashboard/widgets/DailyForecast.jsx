@@ -10,11 +10,6 @@ export function DailyForecast(props) {
 
   const graphData = genGraphData(hourlyForecast);
 
-  const Printer = (props) => {
-    console.log({ props });
-    return <p>{props.value}</p>;
-  };
-
   function renderLabel({ x, y, value }) {
     return (
       <text
@@ -75,7 +70,7 @@ const ChartBody = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 30vw;
-  height: 15vh;
+  height: 13vh;
 `;
 
 const Text = styled.p``;

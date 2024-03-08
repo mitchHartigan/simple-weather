@@ -11,7 +11,7 @@ import "./Map.css";
 import { useEffect } from "react";
 
 export function MapView(props) {
-  const { updateCoords } = props;
+  const { updateCoords, loading } = props;
   const { regionBounds, coordinates } = props.forecast;
   const { lat, lng } = coordinates;
 
@@ -20,6 +20,7 @@ export function MapView(props) {
     const map = useMap();
 
     useEffect(() => {
+      if (loading) return;
       map.fitBounds(bounds, { animate: true, maxZoom: 12 });
     }, [bounds]);
 

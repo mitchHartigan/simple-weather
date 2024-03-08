@@ -5,6 +5,7 @@ import { MapView } from "../components/dashboard/widgets/MapView";
 import {
   AtAGlance,
   DailyForecast,
+  Spinner,
 } from "../components/dashboard/widgets/index";
 import { sampleForecast } from "../sampleForecast";
 
@@ -26,12 +27,15 @@ const defaultForecast = {
 
 export default function Dashboard() {
   const [forecast, setForecast] = useState(sampleForecast);
+  const [loading, setLoading] = useState(false);
 
   async function updateCoords(newCoords) {
     const { lat, lng } = newCoords;
+    setLoading(true);
     const newForecast = await getForecast(lat, lng);
-    console.log("newForecast", newForecast);
     setForecast(newForecast);
+    setLoading(false);
+    console.log("newForecast", newForecast);
   }
 
   useEffect(() => {
@@ -45,7 +49,12 @@ export default function Dashboard() {
 
   return (
     <main>
-      <MapView forecast={forecast} updateCoords={updateCoords} />
+      <Spinner show={loading} />
+      <MapView
+        forecast={forecast}
+        updateCoords={updateCoords}
+        loading={loading}
+      />
       <AtAGlance forecast={forecast} />
       <DailyForecast forecast={forecast} />
     </main>
