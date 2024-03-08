@@ -5,6 +5,8 @@ const {
   getForecastRegion,
   getWeeklyForecast,
   parseCoordinates,
+  getHourlyForecast,
+  parseForecastDetails,
 } = require("./utils");
 
 const cors = require("cors");
@@ -20,13 +22,28 @@ app.use(express.static("public"));
 
 app.get("/forecast/:coordinateStr", async (req, res) => {
   console.log("forecast hit");
-  const { latitude, longitude } = parseCoordinates(req.params.coordinateStr);
-  const { dailyEndpoint, hourlyEndpoint } = await getForecastRegion(
-    latitude,
-    longitude
-  );
-  const dailyForecast = await getWeeklyForecast(dailyEndpoint);
-  res.json(dailyForecast);
+  // first request to get the forecast region from the lat/long coordinates.
+  // request returns two endpoints for the hourly and weekly forecast for the requested region.
+  const { lat, lng } = parseCoordinates(req.params.coordinateStr);
+  const { dailyEndpoint, hourlyEndpoint } = await getForecastRegion(lat, lng);
+
+  // make requests to the two endpoints.
+  const weeklyForecast = await getWeeklyForecast(dailyEndpoint);
+  const hourlyForecast = await getHourlyForecast(hourlyEndpoint);
+
+  const { dailyForecast, details, coordinates } =
+    parseForecastDetails(weeklyForecast);
+
+  const forecast = {
+    coordinates: { lat, lng },
+    regionBounds: coordinates,
+    details,
+    dailyForecast,
+    hourlyForecast,
+    astralForecast: {},
+  };
+
+  res.json(forecast);
 });
 
 app.listen(port, () => {

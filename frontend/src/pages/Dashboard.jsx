@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getForecast } from "../API";
 import { MapView } from "../components/dashboard/widgets/MapView";
+import { AtAGlance } from "../components/dashboard/widgets/index";
 
 // do we actually need to store these coordinates? Maybe we display them in the ForecastDetails widget.
 const defaultForecast = {
@@ -32,6 +33,7 @@ export default function Dashboard() {
   return (
     <main>
       <MapView forecast={forecast} />
+      <AtAGlance forecast={forecast} />
     </main>
   );
 }

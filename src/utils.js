@@ -4,15 +4,13 @@ const { mappings } = require("../public/iconMappings");
 
 function parseCoordinates(str) {
   const coords = str.split(",");
-  return { latitude: coords[0], longitude: coords[1] };
+  return { lat: coords[0], lng: coords[1] };
 }
 
 async function getForecastRegion(latitude, longitude) {
   const url = `https://api.weather.gov/points/${latitude},${longitude}`;
-  console.log("url", url);
   const response = await fetch(url);
   const result = await response.json();
-  console.log("result", result);
   const dailyEndpoint = result.properties.forecast;
   const hourlyEndpoint = result.properties.forecastHourly;
   return { dailyEndpoint, hourlyEndpoint };
@@ -23,7 +21,6 @@ function parseIconUrl(iconURL) {
   let fragments = iconURL.split("?")[0].split("/");
   const iconCode = fragments.at(6);
   const type = fragments.at(5);
-  console.log({ type, iconCode });
   return mappings[type][iconCode];
 }
 
@@ -39,6 +36,17 @@ function createLocalImgUrls(periods) {
   }
 
   return newPeriods;
+}
+
+function parseForecastDetails(weeklyForecast) {
+  const { properties, geometry } = weeklyForecast;
+  const { periods, ...details } = properties;
+
+  return {
+    coordinates: geometry.coordinates,
+    dailyForecast: periods,
+    details,
+  };
 }
 
 async function getWeeklyForecast(url) {
@@ -80,6 +88,7 @@ function formatPolygon(coordinates) {
 module.exports = {
   getWeeklyForecast,
   getHourlyForecast,
+  parseForecastDetails,
   getForecastRegion,
   parseCoordinates,
 };
