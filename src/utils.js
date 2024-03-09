@@ -60,13 +60,86 @@ function createLocalImgUrls(periods) {
   return newPeriods;
 }
 
+function genDailyForecast(weeklyForecastPeriods) {
+  // concatenate the day and night periods together with a high/low values.
+  const dailyForecast = [];
+  const periodMap = {
+    Now: [],
+  };
+
+  // let periodMap = {
+  //   current: ["today", "tonight"],
+  //   Saturday: ["Saturday", "Saturday Night"],
+  //   Sunday: ["Sunday", "Sunday Night"],
+  // etc etc
+  // };
+
+  // create periodMap data structure above:
+  for (let period of weeklyForecastPeriods) {
+    if (period.name === "Today" || period.name === "Tonight") {
+      periodMap["Now"].push(period);
+      continue;
+    }
+
+    let dayOfWeek = period.name;
+
+    if (period.name.includes("Night")) {
+      dayOfWeek = period.name.split(" ")[0];
+    }
+
+    if (!Object.keys(periodMap).includes(dayOfWeek)) {
+      periodMap[dayOfWeek] = [period];
+      continue;
+    }
+
+    periodMap[dayOfWeek].push(period);
+  }
+
+  // use periodMap data structure to combine for ex. "Saturday" and "Saturday Night" periods into
+  // one combined period:
+  for (let key of Object.keys(periodMap)) {
+    const { name, probabilityOfPrecipitation } = periodMap[key][0];
+
+    const combinedPeriod = {
+      name,
+      tempRange: { high: "N/A", low: "N/A" },
+      iconRange: { high: "N/A", low: "N/A" },
+      precipitation: probabilityOfPrecipitation.value,
+    };
+
+    periodMap[key].forEach((period) => {
+      const { tempRange, iconRange } = combinedPeriod;
+      const { detailedForecast, icon } = period;
+
+      if (detailedForecast.includes("high")) {
+        let fragments = detailedForecast.split(" ");
+        tempRange.high = fragments[fragments.indexOf("high") + 2].slice(0, -1);
+        iconRange.high = icon;
+        return;
+      }
+
+      if (detailedForecast.includes("low")) {
+        let fragments = detailedForecast.split(" ");
+        tempRange.low = fragments[fragments.indexOf("low") + 2].slice(0, -1);
+        iconRange.low = icon;
+        return;
+      }
+    });
+
+    dailyForecast.push(combinedPeriod);
+  }
+
+  return dailyForecast;
+}
+
 function parseForecastDetails(weeklyForecast, hourlyForecast) {
   const { properties, geometry } = weeklyForecast;
   const { periods, ...details } = properties;
+  const dailyForecast = genDailyForecast(periods);
 
   return {
     coordinates: geometry.coordinates,
-    dailyForecast: periods,
+    dailyForecast: dailyForecast,
     details: {
       ...details,
       currentPeriod: hourlyForecast[0],

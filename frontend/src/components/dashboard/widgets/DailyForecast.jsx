@@ -7,7 +7,6 @@ import { genGraphData } from "./utils";
 export function DailyForecast(props) {
   const { hourlyForecast } = props.forecast;
   const { detailedForecast } = props.forecast.details.currentPeriod;
-
   const graphData = genGraphData(hourlyForecast);
 
   function renderLabel({ x, y, value }) {
@@ -16,23 +15,6 @@ export function DailyForecast(props) {
         x={x + 10}
         y={y - 15}
         fill="white"
-        textAnchor="end"
-        dominantBaseline="central"
-      >
-        {value}
-      </text>
-    );
-  }
-
-  function XTick(props) {
-    const { x, y } = props;
-    const { value } = props.payload;
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="blue"
-        stroke="blue"
         textAnchor="end"
         dominantBaseline="central"
       >
