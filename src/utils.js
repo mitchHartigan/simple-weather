@@ -113,29 +113,29 @@ function genDailyForecast(weeklyForecastPeriods) {
       single,
       temperature: null,
       icon: null,
+      humidity: null,
     };
 
     periodMap[key].forEach((period, i) => {
-      const { detailedForecast, icon, temperature } = period;
+      const { icon, temperature, relativeHumidity } = period;
 
       if (single) {
         combinedPeriod.temperature = temperature;
         combinedPeriod.icon = icon;
+        combinedPeriod.humidity = relativeHumidity.value;
         return;
       }
 
       if (i === 0) {
-        let fragments = detailedForecast.split(" ");
-        const highTemp = fragments[fragments.indexOf("high") + 2].slice(0, -1);
-        combinedPeriod.temperature = { high: highTemp, low: "n/a" };
+        combinedPeriod.temperature = { high: temperature, low: "n/a" };
         combinedPeriod.icon = { high: icon, low: "n/a" };
+        combinedPeriod.humidity = { high: relativeHumidity.value, low: "n/a" };
         return;
       }
 
-      let fragments = detailedForecast.split(" ");
-      const lowTemp = fragments[fragments.indexOf("low") + 2].slice(0, -1);
-      combinedPeriod.temperature.low = lowTemp;
+      combinedPeriod.temperature.low = temperature;
       combinedPeriod.icon.low = icon;
+      combinedPeriod.humidity.low = relativeHumidity.value;
       return;
     });
 

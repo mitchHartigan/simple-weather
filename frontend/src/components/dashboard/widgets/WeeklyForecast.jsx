@@ -6,8 +6,7 @@ export function WeeklyForecast(props) {
   console.log("dailyForecast", dailyForecast);
 
   const SingleRow = (props) => {
-    const { name, temperature, icon } = props;
-    console.log("temp", temperature);
+    const { name, temperature, icon, humidity } = props;
     return (
       <Row>
         <Text>{name}</Text>
@@ -15,23 +14,26 @@ export function WeeklyForecast(props) {
         <ImgBox>
           <Img src={icon} alt="high icon" />
         </ImgBox>
+        <Text>{humidity}</Text>
       </Row>
     );
   };
 
   const DoubleRow = (props) => {
-    const { name, temperature, icon } = props;
+    const { name, temperature, icon, humidity } = props;
     return (
       <Row>
         <Text>{name}</Text>
-        <Text>{temperature.high}/</Text>
-        <Text>{temperature.low}</Text>
+        <Text>High: {temperature.high}</Text>
+        <Text>Low: {temperature.low}</Text>
         <ImgBox>
           <Img src={icon.high} alt="high icon" />
         </ImgBox>
         <ImgBox>
           <Img src={icon.low} alt="low icon" />
         </ImgBox>
+        <Text>{humidity.high}%</Text>
+        <Text>{humidity.low}%</Text>
       </Row>
     );
   };
@@ -66,12 +68,15 @@ const Body = styled.div`
   width: 100%;
 `;
 
-const Text = styled.p``;
+const Text = styled.p`
+  margin: 0px 10px 0px 10px;
+`;
 
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
 `;
 
