@@ -79,7 +79,7 @@ const Text = styled.p`
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 20% 15% 10% 15% 15% 15%;
+  grid-template-columns: 20% 15% 10% 15% 15%;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
