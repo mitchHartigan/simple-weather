@@ -1,6 +1,7 @@
 // take coordinates as string in url endpoint.
 // coordinates are going to be supplied by us from the leaflet map and not by the end user.
 const { mappings } = require("../public/iconMappings");
+const { inspect } = require("util");
 
 function parseCoordinates(str) {
   const coords = str.split(",");
@@ -76,7 +77,13 @@ function genDailyForecast(weeklyForecastPeriods) {
 
   // create periodMap data structure above:
   for (let period of weeklyForecastPeriods) {
-    if (period.name === "Today" || period.name === "Tonight") {
+    if (
+      period.name === "Today" ||
+      period.name === "Tonight" ||
+      period.name === "This Afternoon" ||
+      period.name === "This Morning" ||
+      period.name === "Overnight"
+    ) {
       periodMap["Now"].push(period);
       continue;
     }
@@ -98,32 +105,38 @@ function genDailyForecast(weeklyForecastPeriods) {
   // use periodMap data structure to combine for ex. "Saturday" and "Saturday Night" periods into
   // one combined period:
   for (let key of Object.keys(periodMap)) {
-    const { name, probabilityOfPrecipitation } = periodMap[key][0];
+    const { name } = periodMap[key][0];
+    const single = periodMap[key].length === 1;
 
-    const combinedPeriod = {
+    let combinedPeriod = {
       name,
-      tempRange: { high: "N/A", low: "N/A" },
-      iconRange: { high: "N/A", low: "N/A" },
-      precipitation: probabilityOfPrecipitation.value,
+      single,
+      temperature: null,
+      icon: null,
     };
 
-    periodMap[key].forEach((period) => {
-      const { tempRange, iconRange } = combinedPeriod;
-      const { detailedForecast, icon } = period;
+    periodMap[key].forEach((period, i) => {
+      const { detailedForecast, icon, temperature } = period;
 
-      if (detailedForecast.includes("high")) {
-        let fragments = detailedForecast.split(" ");
-        tempRange.high = fragments[fragments.indexOf("high") + 2].slice(0, -1);
-        iconRange.high = icon;
+      if (single) {
+        combinedPeriod.temperature = temperature;
+        combinedPeriod.icon = icon;
         return;
       }
 
-      if (detailedForecast.includes("low")) {
+      if (i === 0) {
         let fragments = detailedForecast.split(" ");
-        tempRange.low = fragments[fragments.indexOf("low") + 2].slice(0, -1);
-        iconRange.low = icon;
+        const highTemp = fragments[fragments.indexOf("high") + 2].slice(0, -1);
+        combinedPeriod.temperature = { high: highTemp, low: "n/a" };
+        combinedPeriod.icon = { high: icon, low: "n/a" };
         return;
       }
+
+      let fragments = detailedForecast.split(" ");
+      const lowTemp = fragments[fragments.indexOf("low") + 2].slice(0, -1);
+      combinedPeriod.temperature.low = lowTemp;
+      combinedPeriod.icon.low = icon;
+      return;
     });
 
     dailyForecast.push(combinedPeriod);

@@ -28,7 +28,7 @@ export function MapView(props) {
     return null;
   };
 
-  const Cursor = (props) => {
+  const Cursor = () => {
     return (
       <Circle
         center={coordinates}
