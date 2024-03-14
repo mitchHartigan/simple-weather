@@ -19,3 +19,11 @@ export function genGraphData(hourlyForecast) {
 
   return graphData;
 }
+
+export function celsiusToFahrenheit(value) {
+  return Math.abs(value * (9 / 5) + 32);
+}
+
+export function metresToFeet(value) {
+  return Math.round(value * 3.281);
+}

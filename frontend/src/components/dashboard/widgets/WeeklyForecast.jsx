@@ -6,34 +6,39 @@ export function WeeklyForecast(props) {
   console.log("dailyForecast", dailyForecast);
 
   const SingleRow = (props) => {
-    const { name, temperature, icon, humidity } = props;
+    const { name, temperature, icon, humidity, precipitation } = props;
     return (
       <Row>
         <Text>{name}</Text>
-        <Text>{temperature}</Text>
+        <Text>{temperature}°F</Text>
         <ImgBox>
           <Img src={icon} alt="high icon" />
         </ImgBox>
         <Text>{humidity}</Text>
+        <Text>{precipitation}</Text>
       </Row>
     );
   };
 
   const DoubleRow = (props) => {
-    const { name, temperature, icon, humidity } = props;
+    const { name, temperature, icon, humidity, precipitation } = props;
+    const { high, low } = precipitation;
+    console.log("precipitation", precipitation);
     return (
       <Row>
         <Text>{name}</Text>
-        <Text>High: {temperature.high}</Text>
-        <Text>Low: {temperature.low}</Text>
+        <Text>
+          {temperature.high}°F / {temperature.low}°F
+        </Text>
         <ImgBox>
           <Img src={icon.high} alt="high icon" />
         </ImgBox>
         <ImgBox>
           <Img src={icon.low} alt="low icon" />
         </ImgBox>
-        <Text>{humidity.high}%</Text>
-        <Text>{humidity.low}%</Text>
+        <Text>
+          {high ? `${high}%` : "none"} / {low ? `${low}%` : "none"}
+        </Text>
       </Row>
     );
   };
@@ -73,7 +78,8 @@ const Text = styled.p`
 `;
 
 const Row = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 20% 15% 10% 15% 15% 15%;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;

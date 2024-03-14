@@ -9,6 +9,7 @@ import {
   Spinner,
 } from "../components/dashboard/widgets/index";
 import { sampleForecast } from "../sampleForecast";
+import ForecastDetails from "../components/dashboard/widgets/ForecastDetails";
 
 /* 
 const defaultForecast = {
@@ -60,6 +61,7 @@ export default function Dashboard() {
         <AtAGlance forecast={forecast} />
         <DailyForecast forecast={forecast} />
         <WeeklyForecast forecast={forecast} />
+        <ForecastDetails forecast={forecast} />
       </main>
     );
   }
