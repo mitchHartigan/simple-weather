@@ -16,7 +16,7 @@ export function WeeklyForecast(props) {
             <Img src={icon} alt="high icon" />
           </ImgBox>
         </Images>
-        <Text>{precipitation ? `${precipitation}%` : "none"}</Text>
+        <Text>{precipitation ? `${precipitation}%` : "--"}</Text>
       </Row>
     );
   };
@@ -39,7 +39,7 @@ export function WeeklyForecast(props) {
           </ImgBox>
         </Images>
         <Text>
-          {high ? `${high}%` : "none"} / {low ? `${low}%` : "none"}
+          {high ? `${high}%` : "--"} / {low ? `${low}%` : "--"}
         </Text>
       </Row>
     );
