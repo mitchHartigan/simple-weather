@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import {
   MapContainer,
   TileLayer,
@@ -50,7 +51,7 @@ export function MapView(props) {
   };
 
   return (
-    <section>
+    <Container>
       <div style={{ width: "800px", height: "500px" }}>
         <MapContainer center={[lat, lng]} zoom={13}>
           <TileLayer
@@ -65,6 +66,10 @@ export function MapView(props) {
           <Updater bounds={regionBounds} />
         </MapContainer>
       </div>
-    </section>
+    </Container>
   );
 }
+
+const Container = styled.section`
+  margin-left: 20px;
+`;

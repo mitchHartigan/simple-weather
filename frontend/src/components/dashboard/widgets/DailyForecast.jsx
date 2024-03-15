@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { genGraphData } from "./utils";
+import { genDailyGraph } from "./utils";
 
 export function DailyForecast(props) {
   const { hourlyForecast } = props.forecast;
   const { detailedForecast } = props.forecast.details.currentPeriod;
-  const graphData = genGraphData(hourlyForecast);
+  const graphData = genDailyGraph(hourlyForecast);
 
   function renderLabel({ x, y, value }) {
     return (
@@ -65,7 +65,7 @@ export function DailyForecast(props) {
 }
 
 const IconRow = styled.div`
-  width: 30vw;
+  width: 25vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -84,21 +84,22 @@ const Img = styled.img`
 `;
 
 const Container = styled.div`
+  margin: 10px 0px 10px 0px;
   padding: 20px;
-  padding-top: 40px;
-  margin: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
   background-color: gray;
-  width: 700px;
+  width: 500px;
 `;
 
 const ChartBody = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 30vw;
-  height: 13vh;
+  width: 25vw;
+  height: 12vh;
 `;
 
-const Text = styled.p``;
+const Text = styled.p`
+  margin: 0px;
+`;

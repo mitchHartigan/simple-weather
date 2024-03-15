@@ -44,8 +44,9 @@ export default function ForecastDetails(props) {
 }
 
 const Container = styled.div`
-  margin: 20px;
-  width: 600px;
+  margin: 0px 10px 10px 10px;
+  padding: 20px;
+  width: 400px;
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
   background-color: gray;

@@ -26,8 +26,8 @@ export function AtAGlance(props) {
 }
 
 const Container = styled.div`
-  margin: 20px;
-  width: 600px;
+  padding: 0px 20px 20px 20px;
+  width: 500px;
   border-radius: 5px;
   box-shadow: 1px 1px lightgray;
   background-color: gray;
@@ -58,6 +58,8 @@ const TextBox = styled.div`
   justify-content: space-evenly;
 `;
 
-const Text = styled.p``;
+const Text = styled.p`
+  margin: 0px;
+`;
 
 const Title = styled.h2``;

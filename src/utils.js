@@ -161,13 +161,16 @@ function parseForecastDetails(weeklyForecast, hourlyForecast) {
   const { properties, geometry } = weeklyForecast;
   const { periods, ...details } = properties;
   const dailyForecast = genDailyForecast(periods);
+  const currentPeriod = hourlyForecast[0];
+  currentPeriod.detailedForecast =
+    weeklyForecast.properties.periods[0].detailedForecast;
 
   return {
     coordinates: geometry.coordinates,
     dailyForecast: dailyForecast,
     details: {
       ...details,
-      currentPeriod: hourlyForecast[0],
+      currentPeriod,
     },
   };
 }

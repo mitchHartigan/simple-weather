@@ -1,5 +1,7 @@
 import React from "react";
+import styled from "styled-components";
 import { useState, useEffect } from "react";
+
 import { getForecast } from "../API";
 import { MapView } from "../components/dashboard/widgets/MapView";
 import {
@@ -8,8 +10,8 @@ import {
   WeeklyForecast,
   Spinner,
 } from "../components/dashboard/widgets/index";
-import { sampleForecast } from "../sampleForecast";
 import ForecastDetails from "../components/dashboard/widgets/ForecastDetails";
+import ForecastGraph from "../components/dashboard/widgets/ForecastGraph";
 
 /* 
 const defaultForecast = {
@@ -48,26 +50,57 @@ export default function Dashboard() {
     mountState();
   }, []);
 
-  console.log("forecast", forecast);
   if (forecast?.details) {
     return (
-      <main>
+      <Container>
         <Spinner show={loading} />
-        <MapView
-          forecast={forecast}
-          updateCoords={updateCoords}
-          loading={loading}
-        />
-        <AtAGlance forecast={forecast} />
-        <DailyForecast forecast={forecast} />
-        <WeeklyForecast forecast={forecast} />
-        <ForecastDetails forecast={forecast} />
-      </main>
+        <Area1>
+          <AtAGlance forecast={forecast} />
+          <DailyForecast forecast={forecast} />
+          <WeeklyForecast forecast={forecast} />
+        </Area1>
+        <Area2>
+          <SubArea2>
+            <MapView
+              forecast={forecast}
+              updateCoords={updateCoords}
+              loading={loading}
+            />
+            <ForecastDetails forecast={forecast} />
+          </SubArea2>
+          <ForecastGraph forecast={forecast} />
+        </Area2>
+      </Container>
     );
   }
   return (
-    <main>
+    <Container>
       <p>Loading....</p>
-    </main>
+    </Container>
   );
 }
+
+const Container = styled.main`
+  display: flex;
+  flex-direction: center;
+  align-items: flex-start;
+`;
+
+const Area1 = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const Area2 = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const SubArea2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
