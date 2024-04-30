@@ -4,7 +4,12 @@ function parseLocalTime(timeStr) {
 }
 
 export function genDailyGraph(hourlyForecast) {
-  const periods = hourlyForecast.slice(0, 8);
+  let periods = hourlyForecast.slice(0, 24);
+
+  periods = periods.filter((period, i) => {
+    let hour = new Date(period.startTime).getHours();
+    return hour % 3 == 0;
+  });
   const graphData = [];
 
   for (let period of periods) {

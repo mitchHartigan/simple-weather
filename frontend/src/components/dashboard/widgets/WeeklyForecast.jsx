@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export function WeeklyForecast(props) {
   const { dailyForecast } = props.forecast;
-  console.log("dailyForecast", dailyForecast);
 
   const SingleRow = (props) => {
     const { name, temperature, icon, precipitation } = props;
@@ -71,7 +70,7 @@ const Images = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const Body = styled.div`
