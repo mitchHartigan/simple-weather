@@ -5,30 +5,27 @@ export function WeeklyForecast(props) {
   const { dailyForecast } = props.forecast;
 
   const SingleRow = (props) => {
-    const { name, temperature, icon, precipitation } = props;
+    const { name, canonDate, temperature, icon } = props;
     return (
       <Row>
+        <Text>{canonDate}</Text>
         <Text>{name}</Text>
-        <Text>{temperature}°F</Text>
         <Images>
           <ImgBox>
             <Img src={icon} alt="high icon" />
           </ImgBox>
         </Images>
-        <Text>{precipitation ? `${precipitation}%` : "--"}</Text>
+        <Text>{temperature}°F</Text>
       </Row>
     );
   };
 
   const DoubleRow = (props) => {
-    const { name, temperature, icon, precipitation } = props;
-    const { high, low } = precipitation;
+    const { name, canonDate, temperature, icon } = props;
     return (
       <Row>
+        <Text>{canonDate}</Text>
         <Text>{name}</Text>
-        <Text>
-          {temperature.high}°F / {temperature.low}°F
-        </Text>
         <Images>
           <ImgBox>
             <Img src={icon.high} alt="high icon" />
@@ -38,7 +35,7 @@ export function WeeklyForecast(props) {
           </ImgBox>
         </Images>
         <Text>
-          {high ? `${high}%` : "--"} / {low ? `${low}%` : "--"}
+          {temperature.high}°F / {temperature.low}°F
         </Text>
       </Row>
     );
@@ -61,8 +58,8 @@ const Container = styled.div`
   padding: 20px;
   margin: 0px 0px 10px 0px;
   border-radius: 5px;
-  box-shadow: 1px 1px lightgray;
-  background-color: gray;
+  background-color: #45415c;
+  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
   width: 500px;
 `;
 
@@ -86,7 +83,7 @@ const Text = styled.p`
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 20% 20% 20% 20%;
+  grid-template-columns: 25% 25% 25% 25%;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;

@@ -15,6 +15,7 @@ export function DailyForecast(props) {
         x={x + 10}
         y={y - 15}
         fill="white"
+        fontFamily="Roboto"
         textAnchor="end"
         dominantBaseline="central"
       >
@@ -38,14 +39,15 @@ export function DailyForecast(props) {
             <XAxis
               dataKey="time"
               padding={{ left: 15, right: 15 }}
-              tick={{ fill: "white" }}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
             />
             <Area
               dataKey="temperature"
-              stroke="blue"
-              fill="lightblue"
-              strokeWidth={3}
+              stroke="#DC7B28"
+              fill="#C9533E"
+              strokeWidth={2}
               label={renderLabel}
+              type="natural"
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -87,8 +89,8 @@ const Container = styled.div`
   margin: 10px 0px 10px 0px;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 1px 1px lightgray;
-  background-color: gray;
+  background-color: #45415c;
+  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
   width: 500px;
 `;
 

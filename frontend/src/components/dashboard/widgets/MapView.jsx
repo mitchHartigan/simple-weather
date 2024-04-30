@@ -33,8 +33,8 @@ export function MapView(props) {
     return (
       <Circle
         center={coordinates}
-        radius={150}
-        pathOptions={{ fill: "blue" }}
+        radius={100}
+        pathOptions={{ color: "#45415c" }}
       />
     );
   };
@@ -59,7 +59,7 @@ export function MapView(props) {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <ClickListener />
-          <FeatureGroup pathOptions={{ color: "green" }}>
+          <FeatureGroup pathOptions={{ color: "#d54c7e" }}>
             <Rectangle bounds={regionBounds} />
           </FeatureGroup>
           <Cursor />

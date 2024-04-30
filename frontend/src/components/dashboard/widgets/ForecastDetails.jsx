@@ -48,8 +48,8 @@ const Container = styled.div`
   padding: 20px;
   width: 400px;
   border-radius: 5px;
-  box-shadow: 1px 1px lightgray;
-  background-color: gray;
+  background-color: #45415c;
+  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
 `;
 
 const Body = styled.div`
@@ -68,7 +68,7 @@ const Text = styled.p`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
 `;

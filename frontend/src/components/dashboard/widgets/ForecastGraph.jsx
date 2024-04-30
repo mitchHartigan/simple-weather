@@ -19,14 +19,23 @@ export default function ForecastGraph(props) {
       <Body>
         <ResponsiveContainer>
           <AreaChart data={graphData}>
-            <YAxis domain={["dataMin-15", "dataMax+15"]} width={10} />
-            <XAxis dataKey={"time"} />
+            <YAxis
+              domain={["auto", "dataMax+20"]}
+              width={25}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+            />
+            <XAxis
+              dataKey={"time"}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+              padding={{ left: 0, right: 15 }}
+            />
             <Tooltip />
             <Area
               dataKey={"temperature"}
-              stroke="blue"
+              stroke="#DC7B28"
               strokeWidth={2}
-              type="monotone"
+              fill="#c9533e"
+              type="natural"
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -41,9 +50,9 @@ const Container = styled.div`
   padding-top: 40px;
   margin: 20px;
   border-radius: 5px;
-  box-shadow: 1px 1px lightgray;
-  background-color: gray;
-  width: 60vw;
+  background-color: #45415c;
+  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
+  width: 67vw;
 `;
 
 const Body = styled.div`

@@ -29,8 +29,8 @@ const Container = styled.div`
   padding: 0px 20px 20px 20px;
   width: 500px;
   border-radius: 5px;
-  box-shadow: 1px 1px lightgray;
-  background-color: gray;
+  background-color: #45415c;
+  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
 `;
 
 const Body = styled.div`
@@ -60,6 +60,9 @@ const TextBox = styled.div`
 
 const Text = styled.p`
   margin: 0px;
+  color: white;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  color: white;
+`;

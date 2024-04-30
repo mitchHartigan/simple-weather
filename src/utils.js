@@ -62,6 +62,7 @@ function createLocalImgUrls(periods) {
 }
 
 function genDailyForecast(weeklyForecastPeriods) {
+  console.log("weeklyForecastPeriods", weeklyForecastPeriods);
   // concatenate the day and night periods together with a high/low values.
   const dailyForecast = [];
   const periodMap = {
@@ -106,6 +107,7 @@ function genDailyForecast(weeklyForecastPeriods) {
   // one combined period:
   for (let key of Object.keys(periodMap)) {
     const { name } = periodMap[key][0];
+    const { startTime } = periodMap[key][0];
     const single = periodMap[key].length === 1;
 
     let combinedPeriod = {
@@ -126,6 +128,7 @@ function genDailyForecast(weeklyForecastPeriods) {
       } = period;
 
       if (single) {
+        combinedPeriod.canonDate = formatDate(period.startTime);
         combinedPeriod.temperature = temperature;
         combinedPeriod.icon = icon;
         combinedPeriod.humidity = relativeHumidity.value;
@@ -134,6 +137,7 @@ function genDailyForecast(weeklyForecastPeriods) {
       }
 
       if (i === 0) {
+        combinedPeriod.canonDate = formatDate(period.startTime);
         combinedPeriod.temperature = { high: temperature, low: "n/a" };
         combinedPeriod.icon = { high: icon, low: "n/a" };
         combinedPeriod.humidity = { high: relativeHumidity.value, low: "n/a" };
@@ -238,6 +242,40 @@ function formatPolygon(coordinates) {
   }
 
   return coordinates;
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  // Get the full month name
+  const month = date.toLocaleString("default", { month: "long" });
+
+  // Extract the day of the month
+  const day = date.getDate();
+
+  // Add the ordinal suffix
+  const suffix = getOrdinalSuffix(day);
+
+  // Construct the final formatted string
+  const formattedDate = `${month} ${day}${suffix}`;
+
+  return formattedDate;
+}
+
+function getOrdinalSuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
 }
 
 module.exports = {
