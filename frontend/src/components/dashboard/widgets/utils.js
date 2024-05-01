@@ -26,20 +26,23 @@ export function genDailyGraph(hourlyForecast) {
 }
 
 export function genHourlyGraph(hourlyForecast) {
-  let periods = hourlyForecast.slice(0, 72);
+  let periods = hourlyForecast;
+  console.log("ayy lmao", hourlyForecast);
 
   periods = periods.filter((period, i) => {
     let hour = new Date(period.startTime).getHours();
-    return hour % 2 == 0;
+    return hour % 3 == 0;
   });
 
   const graphData = [];
 
   for (let period of periods) {
-    const { startTime, temperature, icon } = period;
+    const { startTime, temperature, relativeHumidity, dewpoint, icon } = period;
     const point = {
       time: parseLocalTime(startTime),
       temperature,
+      relativeHumidity: relativeHumidity.value,
+      dewpoint: celsiusToFahrenheit(dewpoint.value),
       icon,
     };
     graphData.push(point);

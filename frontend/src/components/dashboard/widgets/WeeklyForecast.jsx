@@ -8,8 +8,8 @@ export function WeeklyForecast(props) {
     const { name, canonDate, temperature, icon } = props;
     return (
       <Row>
-        <Text>{canonDate}</Text>
         <Text>{name}</Text>
+        <Text>{canonDate}</Text>
         <Images>
           <ImgBox>
             <Img src={icon} alt="high icon" />
@@ -24,8 +24,8 @@ export function WeeklyForecast(props) {
     const { name, canonDate, temperature, icon } = props;
     return (
       <Row>
-        <Text>{canonDate}</Text>
         <Text>{name}</Text>
+        <Text>{canonDate}</Text>
         <Images>
           <ImgBox>
             <Img src={icon.high} alt="high icon" />
