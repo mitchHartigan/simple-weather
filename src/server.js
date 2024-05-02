@@ -4,8 +4,9 @@ const bodyParser = require("body-parser");
 const {
   getForecastRegion,
   getWeeklyForecast,
-  parseCoordinates,
   getHourlyForecast,
+  getAstralForecast,
+  parseCoordinates,
   parseForecastDetails,
 } = require("./utils");
 
@@ -31,6 +32,7 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
   // make requests to the two endpoints.
   const weeklyForecast = await getWeeklyForecast(dailyEndpoint);
   const hourlyForecast = await getHourlyForecast(hourlyEndpoint);
+  const astralForecast = await getAstralForecast(lat, lng);
 
   const { dailyForecast, details, coordinates } = parseForecastDetails(
     weeklyForecast,
@@ -43,7 +45,7 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
     details,
     dailyForecast,
     hourlyForecast,
-    astralForecast: {},
+    astralForecast,
   };
 
   res.json(forecast);

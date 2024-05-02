@@ -223,6 +223,14 @@ async function getWeeklyForecast(url) {
   };
 }
 
+async function getAstralForecast(lat, lng) {
+  const response = await fetch(
+    `https://api.sunrisesunset.io/json?lat=${lat}&lng=${lng}`
+  );
+  const result = await response.json();
+  return result.results;
+}
+
 async function getHourlyForecast(url) {
   const response = await fetch(url);
   const result = await response.json();
@@ -281,6 +289,7 @@ function getOrdinalSuffix(day) {
 module.exports = {
   getWeeklyForecast,
   getHourlyForecast,
+  getAstralForecast,
   parseForecastDetails,
   getForecastRegion,
   parseCoordinates,

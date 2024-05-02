@@ -87,6 +87,7 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  padding: 2px 0px 2px 0px;
   width: 100%;
 `;
 

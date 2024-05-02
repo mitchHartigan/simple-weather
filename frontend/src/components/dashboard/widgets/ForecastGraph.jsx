@@ -16,7 +16,6 @@ import { genHourlyGraph } from "./utils";
 export default function ForecastGraph(props) {
   const { hourlyForecast } = props.forecast;
   const graphData = genHourlyGraph(hourlyForecast);
-  console.log("big ones", graphData);
 
   return (
     <Container>
@@ -34,10 +33,16 @@ export default function ForecastGraph(props) {
               tick={{ fill: "white", fontFamily: "Roboto" }}
               padding={{ left: 0, right: 15 }}
             />
-            <Tooltip isAnimationActive={false} />
+            <Tooltip
+              labelStyle={{ color: "#45415c" }}
+              labelFormatter={(value) => `${value}:00`}
+              formatter={(value) => `${value}°F`}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
             {graphData.map((period, i) => {
               if (period.time === "00") {
-                return <ReferenceLine x={i} stroke="red" />;
+                return <ReferenceLine x={i} stroke="lightgray" />;
               }
             })}
             <Line
@@ -55,7 +60,7 @@ export default function ForecastGraph(props) {
           </LineChart>
         </ResponsiveContainer>
 
-        <ResponsiveContainer height={120}>
+        <ResponsiveContainer height={140}>
           <AreaChart data={graphData} syncId={"balls"}>
             <YAxis
               domain={[0, 100]}
@@ -68,13 +73,19 @@ export default function ForecastGraph(props) {
               tick={{ fill: "white", fontFamily: "Roboto" }}
               padding={{ left: 0, right: 15 }}
             />
-            <Tooltip isAnimationActive={false} />
+            <Tooltip
+              labelStyle={{ color: "#45415c" }}
+              labelFormatter={(value) => `${value}:00`}
+              formatter={(value) => `${value}%`}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
             <Area
               dataKey={"relativeHumidity"}
               stroke="#c9533e"
               strokeWidth={2}
               fill="#c47e72"
-              type="linear"
+              type="monotone"
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -95,8 +106,8 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-  width: 60vw;
-  height: 30vh;
+  width: 100%;
+  height: 35vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

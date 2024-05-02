@@ -40,6 +40,7 @@ export function genHourlyGraph(hourlyForecast) {
     const { startTime, temperature, relativeHumidity, dewpoint, icon } = period;
     const point = {
       time: parseLocalTime(startTime),
+      date: formatDate(startTime),
       temperature,
       relativeHumidity: relativeHumidity.value,
       dewpoint: celsiusToFahrenheit(dewpoint.value),
@@ -52,9 +53,43 @@ export function genHourlyGraph(hourlyForecast) {
 }
 
 export function celsiusToFahrenheit(value) {
-  return Math.abs(value * (9 / 5) + 32);
+  return Math.round(Math.abs(value * (9 / 5) + 32));
 }
 
 export function metresToFeet(value) {
   return Math.round(value * 3.281);
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  // Get the full month name
+  const month = date.toLocaleString("default", { month: "long" });
+
+  // Extract the day of the month
+  const day = date.getDate();
+
+  // Add the ordinal suffix
+  const suffix = getOrdinalSuffix(day);
+
+  // Construct the final formatted string
+  const formattedDate = `${month} ${day}${suffix}`;
+
+  return formattedDate;
+}
+
+function getOrdinalSuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
 }
