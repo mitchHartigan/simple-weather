@@ -56,7 +56,7 @@ export default function Dashboard() {
       <Container>
         <Spinner show={loading} />
         <Area1>
-          <AtAGlance forecast={forecast} />
+          <AtAGlance forecast={forecast} updateCoords={updateCoords} />
           <DailyForecast forecast={forecast} />
           <WeeklyForecast forecast={forecast} />
         </Area1>

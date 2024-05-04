@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+import { CoordsInput } from "./CoordsInput";
+
 export function AtAGlance(props) {
+  const { updateCoords, forecast } = props;
   const { currentPeriod, generatedAt } = props.forecast.details;
   const { shortForecast, icon, temperature } = currentPeriod;
 
@@ -13,6 +16,7 @@ export function AtAGlance(props) {
         </ImgBox>
         <TextBox>
           <Title>Selected Location</Title>
+          <CoordsInput updateCoords={updateCoords} forecast={forecast} />
           <Title>{temperature}</Title>
           <Text>{shortForecast}</Text>
           <Text>
