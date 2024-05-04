@@ -8,6 +8,7 @@ import {
   AtAGlance,
   DailyForecast,
   WeeklyForecast,
+  AstralForecast,
   Spinner,
 } from "../components/dashboard/widgets/index";
 import ForecastDetails from "../components/dashboard/widgets/ForecastDetails";
@@ -66,7 +67,10 @@ export default function Dashboard() {
               updateCoords={updateCoords}
               loading={loading}
             />
-            <ForecastDetails forecast={forecast} />
+            <SubArea3>
+              <ForecastDetails forecast={forecast} />
+              <AstralForecast forecast={forecast} />
+            </SubArea3>
           </SubArea2>
           <ForecastGraph forecast={forecast} />
         </Area2>
@@ -101,6 +105,13 @@ const Area2 = styled.section`
 const SubArea2 = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
+const SubArea3 = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 `;

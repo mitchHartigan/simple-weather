@@ -28,7 +28,7 @@ export default function ForecastGraph(props) {
               tick={{ fill: "white", fontFamily: "Roboto" }}
             />
             <XAxis
-              interval={1}
+              interval={2}
               dataKey={"time"}
               tick={{ fill: "white", fontFamily: "Roboto" }}
               padding={{ left: 0, right: 15 }}
@@ -60,7 +60,7 @@ export default function ForecastGraph(props) {
           </LineChart>
         </ResponsiveContainer>
 
-        <ResponsiveContainer height={140}>
+        <ResponsiveContainer height={160}>
           <AreaChart data={graphData} syncId={"balls"}>
             <YAxis
               domain={[0, 100]}
@@ -80,6 +80,11 @@ export default function ForecastGraph(props) {
               itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
               isAnimationActive={false}
             />
+            {graphData.map((period, i) => {
+              if (period.time === "00") {
+                return <ReferenceLine x={i} stroke="lightgray" />;
+              }
+            })}
             <Area
               dataKey={"relativeHumidity"}
               stroke="#c9533e"

@@ -27,11 +27,10 @@ export function genDailyGraph(hourlyForecast) {
 
 export function genHourlyGraph(hourlyForecast) {
   let periods = hourlyForecast;
-  console.log("ayy lmao", hourlyForecast);
 
   periods = periods.filter((period, i) => {
     let hour = new Date(period.startTime).getHours();
-    return hour % 3 == 0;
+    return hour % 2 == 0;
   });
 
   const graphData = [];
