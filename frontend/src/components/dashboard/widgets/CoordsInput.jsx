@@ -28,15 +28,16 @@ export function CoordsInput(props) {
     const { lat, lng } = props.forecast.coordinates;
     const currentValue = `${lat},${lng}`;
 
-    if (currentValue !== value && isValidCoordinates(value)) {
+    if (currentValue === value) return;
+
+    if (isValidCoordinates(value)) {
+      setError(false);
       const newCoords = parseCoordString(value);
-      console.log("newCoords", newCoords);
       props.updateCoords(newCoords);
+    } else {
+      setError(true);
     }
   }
-
-  // watch the value of the input.
-  // if it changes, call update Coords with the new value as a parameter.
 
   return (
     <Container>
@@ -54,4 +55,5 @@ const Container = styled.div``;
 
 const Input = styled.input`
   font-family: Roboto;
+  color: ${({ error }) => (error ? "red" : "none")};
 `;
