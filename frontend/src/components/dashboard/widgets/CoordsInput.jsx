@@ -25,7 +25,10 @@ export function CoordsInput(props) {
   }
 
   function handleSubmit() {
-    if (isValidCoordinates(value)) {
+    const { lat, lng } = props.forecast.coordinates;
+    const currentValue = `${lat},${lng}`;
+
+    if (currentValue !== value && isValidCoordinates(value)) {
       const newCoords = parseCoordString(value);
       console.log("newCoords", newCoords);
       props.updateCoords(newCoords);
