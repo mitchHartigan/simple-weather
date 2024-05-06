@@ -10,6 +10,7 @@ import {
   YAxis,
   Tooltip,
   ReferenceLine,
+  CartesianGrid,
 } from "recharts";
 import { genHourlyGraph } from "./utils";
 
@@ -33,7 +34,9 @@ export default function ForecastGraph(props) {
               tick={{ fill: "white", fontFamily: "Roboto" }}
               padding={{ left: 0, right: 15 }}
             />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
             <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
               labelStyle={{ color: "#45415c" }}
               labelFormatter={(value) => `${value}:00`}
               formatter={(value) => `${value}°F`}
@@ -60,8 +63,50 @@ export default function ForecastGraph(props) {
           </LineChart>
         </ResponsiveContainer>
 
+        <ResponsiveContainer>
+          <LineChart data={graphData} syncId="balls">
+            <YAxis
+              domain={["dataMin-5", "dataMax+5"]}
+              width={25}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+            />
+            <XAxis
+              interval={2}
+              dataKey={"time"}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+              padding={{ left: 0, right: 15 }}
+            />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
+            <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
+              labelStyle={{ color: "#45415c" }}
+              labelFormatter={(value) => `${value}:00`}
+              formatter={(value) => `${value}%`}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
+            {graphData.map((period, i) => {
+              if (period.time === "00") {
+                return <ReferenceLine x={i} stroke="lightgray" />;
+              }
+            })}
+            <Line
+              dataKey={"precipitation"}
+              stroke="#2176AE"
+              strokeWidth={3}
+              type="monotone"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+
         <ResponsiveContainer height={160}>
           <AreaChart data={graphData} syncId={"balls"}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#c9533e" stopOpacity={0.4}></stop>
+                <stop offset="95%" stopColor="#c9533e" stopOpacity={0}></stop>
+              </linearGradient>
+            </defs>
             <YAxis
               domain={[0, 100]}
               width={25}
@@ -74,6 +119,7 @@ export default function ForecastGraph(props) {
               padding={{ left: 0, right: 15 }}
             />
             <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
               labelStyle={{ color: "#45415c" }}
               labelFormatter={(value) => `${value}:00`}
               formatter={(value) => `${value}%`}
@@ -87,10 +133,11 @@ export default function ForecastGraph(props) {
             })}
             <Area
               dataKey={"relativeHumidity"}
-              stroke="#c9533e"
               strokeWidth={2}
-              fill="#c47e72"
-              type="monotone"
+              stroke="#c9533e"
+              fillOpacity={1}
+              fill="url(#colorUv)"
+              type="linear"
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -112,7 +159,6 @@ const Container = styled.div`
 
 const Body = styled.div`
   width: 100%;
-  height: 35vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

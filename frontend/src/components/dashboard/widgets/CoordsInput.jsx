@@ -12,16 +12,16 @@ export function CoordsInput(props) {
     setValue(newValue);
   }, []);
 
+  function parseCoordString(str) {
+    const coords = str.split(",");
+    return { lat: coords[0], lng: coords[1].trim() };
+  }
+
   // Warning! Copy and pasted from copilot lmao
   function isValidCoordinates(s) {
     const pattern =
       /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
     return pattern.test(s);
-  }
-
-  function parseCoordString(str) {
-    const coords = str.split(",");
-    return { lat: coords[0], lng: coords[1].trim() };
   }
 
   function handleSubmit() {
@@ -30,13 +30,14 @@ export function CoordsInput(props) {
 
     if (currentValue === value) return;
 
-    if (isValidCoordinates(value)) {
-      setError(false);
-      const newCoords = parseCoordString(value);
-      props.updateCoords(newCoords);
-    } else {
+    if (!isValidCoordinates(value)) {
       setError(true);
+      return;
     }
+
+    setError(false);
+    const newCoords = parseCoordString(value);
+    props.updateCoords(newCoords);
   }
 
   return (

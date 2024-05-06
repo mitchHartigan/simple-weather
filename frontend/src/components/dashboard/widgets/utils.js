@@ -36,11 +36,19 @@ export function genHourlyGraph(hourlyForecast) {
   const graphData = [];
 
   for (let period of periods) {
-    const { startTime, temperature, relativeHumidity, dewpoint, icon } = period;
+    const {
+      startTime,
+      temperature,
+      relativeHumidity,
+      probabilityOfPrecipitation,
+      dewpoint,
+      icon,
+    } = period;
     const point = {
       time: parseLocalTime(startTime),
       date: formatDate(startTime),
       temperature,
+      precipitation: probabilityOfPrecipitation.value,
       relativeHumidity: relativeHumidity.value,
       dewpoint: celsiusToFahrenheit(dewpoint.value),
       icon,

@@ -231,6 +231,8 @@ async function getAstralForecast(lat, lng) {
   return result.results;
 }
 
+async function getCloudCover(lat, lng) {}
+
 async function getHourlyForecast(url) {
   const response = await fetch(url);
   const result = await response.json();
