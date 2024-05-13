@@ -8,6 +8,8 @@ const {
   getAstralForecast,
   parseCoordinates,
   parseForecastDetails,
+  getOpenMeteoForecast,
+  combineForecasts,
 } = require("./utils");
 
 const cors = require("cors");
@@ -31,8 +33,11 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
 
   // make requests to the two endpoints.
   const weeklyForecast = await getWeeklyForecast(dailyEndpoint);
-  const hourlyForecast = await getHourlyForecast(hourlyEndpoint);
+  const nwsForecast = await getHourlyForecast(hourlyEndpoint);
   const astralForecast = await getAstralForecast(lat, lng);
+  const openMeteoForecast = await getOpenMeteoForecast(lat, lng);
+
+  const hourlyForecast = combineForecasts(nwsForecast, openMeteoForecast);
 
   const { dailyForecast, details, coordinates } = parseForecastDetails(
     weeklyForecast,
@@ -46,6 +51,7 @@ app.get("/forecast/:coordinateStr", async (req, res) => {
     dailyForecast,
     hourlyForecast,
     astralForecast,
+    openMeteoForecast,
   };
 
   res.json(forecast);

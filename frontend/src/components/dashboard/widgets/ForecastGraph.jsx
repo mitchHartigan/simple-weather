@@ -53,20 +53,29 @@ export default function ForecastGraph(props) {
               stroke="#DC7B28"
               strokeWidth={2}
               type="natural"
+              dot={{ strokeWidth: 1, fill: "#DC7B28" }}
             />
             <Line
               dataKey={"dewpoint"}
-              stroke="#a84f71"
+              stroke="#774867"
               strokeWidth={2}
               type="natural"
+              dot={{ strokeWidth: 2, fill: "#774867" }}
+            />
+            <Line
+              dataKey={"apparentTemperature"}
+              stroke="#c9533e"
+              strokeWidth={2}
+              type="natural"
+              dot={{ strokeWidth: 1, fill: "#c9533e" }}
             />
           </LineChart>
         </ResponsiveContainer>
 
-        <ResponsiveContainer>
+        <ResponsiveContainer height={130}>
           <LineChart data={graphData} syncId="balls">
             <YAxis
-              domain={["dataMin-5", "dataMax+5"]}
+              domain={[0, 100]}
               width={25}
               tick={{ fill: "white", fontFamily: "Roboto" }}
             />
@@ -95,34 +104,26 @@ export default function ForecastGraph(props) {
               stroke="#2176AE"
               strokeWidth={3}
               type="monotone"
+              dot={false}
             />
           </LineChart>
         </ResponsiveContainer>
 
-        <ResponsiveContainer height={160}>
-          <AreaChart data={graphData} syncId={"balls"}>
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#c9533e" stopOpacity={0.4}></stop>
-                <stop offset="95%" stopColor="#c9533e" stopOpacity={0}></stop>
-              </linearGradient>
-            </defs>
-            <YAxis
-              domain={[0, 100]}
-              width={25}
-              tick={{ fill: "white", fontFamily: "Roboto" }}
-            />
+        <ResponsiveContainer height={120}>
+          <LineChart data={graphData} syncId="balls">
+            <YAxis width={30} tick={{ fill: "white", fontFamily: "Roboto" }} />
             <XAxis
-              interval={1}
+              interval={2}
               dataKey={"time"}
               tick={{ fill: "white", fontFamily: "Roboto" }}
               padding={{ left: 0, right: 15 }}
             />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
             <Tooltip
               contentStyle={{ borderRadius: "5px" }}
               labelStyle={{ color: "#45415c" }}
               labelFormatter={(value) => `${value}:00`}
-              formatter={(value) => `${value}%`}
+              formatter={(value) => `${value}`}
               itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
               isAnimationActive={false}
             />
@@ -131,15 +132,84 @@ export default function ForecastGraph(props) {
                 return <ReferenceLine x={i} stroke="lightgray" />;
               }
             })}
-            <Area
-              dataKey={"relativeHumidity"}
-              strokeWidth={2}
-              stroke="#c9533e"
-              fillOpacity={1}
-              fill="url(#colorUv)"
-              type="linear"
+            <Line
+              dataKey={"cloudCover"}
+              stroke="blue"
+              strokeWidth={3}
+              type="monotone"
+              dot={false}
             />
-          </AreaChart>
+          </LineChart>
+        </ResponsiveContainer>
+
+        <ResponsiveContainer height={120}>
+          <LineChart data={graphData} syncId="balls" height={120}>
+            <YAxis
+              domain={[0, 100]}
+              width={25}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+            />
+            <XAxis
+              interval={2}
+              dataKey={"time"}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+              padding={{ left: 0, right: 15 }}
+            />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
+            <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
+              labelStyle={{ color: "#45415c" }}
+              labelFormatter={(value) => `${value}:00`}
+              formatter={(value) => `${value}`}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
+            {graphData.map((period, i) => {
+              if (period.time === "00") {
+                return <ReferenceLine x={i} stroke="lightgray" />;
+              }
+            })}
+            <Line
+              dataKey={"relativeHumidity"}
+              stroke="red"
+              strokeWidth={3}
+              type="linear"
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+
+        <ResponsiveContainer height={120}>
+          <LineChart data={graphData} syncId="balls">
+            <YAxis width={25} tick={{ fill: "white", fontFamily: "Roboto" }} />
+            <XAxis
+              interval={2}
+              dataKey={"time"}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+              padding={{ left: 0, right: 15 }}
+            />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
+            <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
+              labelStyle={{ color: "#45415c" }}
+              labelFormatter={(value) => `${value}:00`}
+              formatter={(value) => `${value}`}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
+            {graphData.map((period, i) => {
+              if (period.time === "00") {
+                return <ReferenceLine x={i} stroke="lightgray" />;
+              }
+            })}
+            <Line
+              dataKey={"uvIndex"}
+              stroke="blue"
+              strokeWidth={3}
+              type="monotone"
+              dot={false}
+            />
+          </LineChart>
         </ResponsiveContainer>
       </Body>
     </Container>

@@ -1,7 +1,7 @@
 // take coordinates as string in url endpoint.
 // coordinates are going to be supplied by us from the leaflet map and not by the end user.
 const { mappings } = require("../public/iconMappings");
-const { inspect } = require("util");
+const { fetchWeatherApi } = require("openmeteo");
 
 function parseCoordinates(str) {
   const coords = str.split(",");
@@ -62,7 +62,6 @@ function createLocalImgUrls(periods) {
 }
 
 function genDailyForecast(weeklyForecastPeriods) {
-  console.log("weeklyForecastPeriods", weeklyForecastPeriods);
   // concatenate the day and night periods together with a high/low values.
   const dailyForecast = [];
   const periodMap = {
@@ -231,13 +230,62 @@ async function getAstralForecast(lat, lng) {
   return result.results;
 }
 
-async function getCloudCover(lat, lng) {}
+async function getOpenMeteoForecast(lat, lng) {
+  const params = {
+    latitude: lat,
+    longitude: lng,
+    hourly: [
+      "apparent_temperature",
+      "cloud_cover",
+      "visibility",
+      "uv_index",
+      "freezing_level_height",
+      "sunshine_duration",
+    ],
+    timezone: "America/Los_Angeles",
+    temperature_unit: "fahrenheit",
+  };
+  const url = "https://api.open-meteo.com/v1/forecast";
+  const responses = await fetchWeatherApi(url, params);
+
+  // Helper function to form time ranges
+  const range = (start, stop, step) =>
+    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+
+  // Process first location. Add a for-loop for multiple locations or weather models
+  const response = responses[0];
+
+  // Attributes for timezone and location
+  const utcOffsetSeconds = 0;
+  console.log("utcOffsetSeconds", utcOffsetSeconds);
+  const hourly = response.hourly();
+
+  // Note: The order of weather variables in the URL query and the indices below need to match!
+  const weatherData = {
+    hourly: {
+      time: range(
+        Number(hourly.time()),
+        Number(hourly.timeEnd()),
+        hourly.interval()
+      ).map((t) => new Date((t + utcOffsetSeconds) * 1000)),
+      apparentTemperature: hourly.variables(0).valuesArray(),
+      cloudCover: hourly.variables(1).valuesArray(),
+      visibility: hourly.variables(2).valuesArray(),
+      uvIndex: hourly.variables(3).valuesArray(),
+      freezingLevelHeight: hourly.variables(4).valuesArray(),
+      sunshineDuration: hourly.variables(5).valuesArray(),
+    },
+  };
+
+  return weatherData;
+}
 
 async function getHourlyForecast(url) {
   const response = await fetch(url);
   const result = await response.json();
   const { periods } = result?.properties;
   const newPeriods = createLocalImgUrls(periods);
+  newPeriods.shift();
   return newPeriods;
 }
 
@@ -288,11 +336,56 @@ function getOrdinalSuffix(day) {
   }
 }
 
+function combineForecasts(nwsForecast, openMeteoForecast) {
+  console.log("\n \n \n");
+
+  for (let i = 0; i < nwsForecast.length; i++) {
+    const { hourly } = openMeteoForecast;
+    const {
+      apparentTemperature,
+      cloudCover,
+      freezingLevelHeight,
+      sunshineDuration,
+      uvIndex,
+      visibility,
+      time,
+    } = hourly;
+
+    console.log(
+      new Date(nwsForecast[i].startTime).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles",
+      }),
+      nwsForecast[i].temperature,
+      Math.round(apparentTemperature[i]),
+      new Date(time[i]).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles",
+      }),
+      nwsForecast[i].startTime === time[i]
+    );
+
+    let newPeriod = {
+      ...nwsForecast[i],
+      apparentTemperature: apparentTemperature[i],
+      cloudCover: cloudCover[i],
+      freezingLevelHeight: freezingLevelHeight[i],
+      sunshineDuration: sunshineDuration[i],
+      uvIndex: uvIndex[i],
+      visibility: visibility[i],
+    };
+
+    nwsForecast[i] = newPeriod;
+  }
+
+  return nwsForecast;
+}
+
 module.exports = {
   getWeeklyForecast,
   getHourlyForecast,
   getAstralForecast,
+  getOpenMeteoForecast,
   parseForecastDetails,
   getForecastRegion,
   parseCoordinates,
+  combineForecasts,
 };

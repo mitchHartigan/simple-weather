@@ -43,16 +43,25 @@ export function genHourlyGraph(hourlyForecast) {
       probabilityOfPrecipitation,
       dewpoint,
       icon,
+      apparentTemperature,
+      sunshineDuration,
+      uvIndex,
+      cloudCover,
     } = period;
     const point = {
       time: parseLocalTime(startTime),
       date: formatDate(startTime),
       temperature,
+      cloudCover,
+      uvIndex: Math.round(uvIndex),
+      sunshineDuration: Math.round(sunshineDuration),
+      apparentTemperature: Math.round(apparentTemperature),
       precipitation: probabilityOfPrecipitation.value,
       relativeHumidity: relativeHumidity.value,
       dewpoint: celsiusToFahrenheit(dewpoint.value),
       icon,
     };
+
     graphData.push(point);
   }
 
