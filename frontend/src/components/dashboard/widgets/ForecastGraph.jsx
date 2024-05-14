@@ -211,6 +211,36 @@ export default function ForecastGraph(props) {
             />
           </LineChart>
         </ResponsiveContainer>
+
+        <ResponsiveContainer height={120}>
+          <LineChart data={graphData} syncId="balls">
+            <YAxis width={25} tick={{ fill: "white", fontFamily: "Roboto" }} />
+            <XAxis
+              dataKey={"time"}
+              tick={{ fill: "white", fontFamily: "Roboto" }}
+              padding={{ left: 0, right: 15 }}
+            />
+            <CartesianGrid strokeDasharray="5" vertical={false} />
+            <Tooltip
+              contentStyle={{ borderRadius: "5px" }}
+              labelStyle={{ color: "#45415c" }}
+              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
+              isAnimationActive={false}
+            />
+            {graphData.map((period, i) => {
+              if (period.time === "00") {
+                return <ReferenceLine x={i} stroke="lightgray" />;
+              }
+            })}
+            <Line
+              dataKey={"surfacePressure"}
+              stroke="blue"
+              strokeWidth={3}
+              type="monotone"
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </Body>
     </Container>
   );

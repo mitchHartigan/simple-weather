@@ -47,7 +47,12 @@ export function genHourlyGraph(hourlyForecast) {
       sunshineDuration,
       uvIndex,
       cloudCover,
+      pressureMsl,
+      surfacePressure,
     } = period;
+
+    console.log(surfacePressure);
+
     const point = {
       time: parseLocalTime(startTime),
       date: formatDate(startTime),
@@ -59,6 +64,8 @@ export function genHourlyGraph(hourlyForecast) {
       precipitation: probabilityOfPrecipitation.value,
       relativeHumidity: relativeHumidity.value,
       dewpoint: celsiusToFahrenheit(dewpoint.value),
+      pressureMsl,
+      surfacePressure,
       icon,
     };
 

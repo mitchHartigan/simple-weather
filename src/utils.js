@@ -241,6 +241,8 @@ async function getOpenMeteoForecast(lat, lng) {
       "uv_index",
       "freezing_level_height",
       "sunshine_duration",
+      "pressure_msl",
+      "surface_pressure",
     ],
     timezone: "America/Los_Angeles",
     temperature_unit: "fahrenheit",
@@ -256,7 +258,7 @@ async function getOpenMeteoForecast(lat, lng) {
   const response = responses[0];
 
   // Attributes for timezone and location
-  const utcOffsetSeconds = 0;
+  const utcOffsetSeconds = response.utcOffsetSeconds();
   console.log("utcOffsetSeconds", utcOffsetSeconds);
   const hourly = response.hourly();
 
@@ -274,6 +276,8 @@ async function getOpenMeteoForecast(lat, lng) {
       uvIndex: hourly.variables(3).valuesArray(),
       freezingLevelHeight: hourly.variables(4).valuesArray(),
       sunshineDuration: hourly.variables(5).valuesArray(),
+      pressureMsl: hourly.variables(6).valuesArray(),
+      surfacePressure: hourly.variables(7).valuesArray(),
     },
   };
 
@@ -285,7 +289,6 @@ async function getHourlyForecast(url) {
   const result = await response.json();
   const { periods } = result?.properties;
   const newPeriods = createLocalImgUrls(periods);
-  newPeriods.shift();
   return newPeriods;
 }
 
@@ -336,11 +339,48 @@ function getOrdinalSuffix(day) {
   }
 }
 
+function syncOpenMeteoForecast(starttime, openMeteoForecast) {
+  let startIndex = 0;
+  // I believe the startTime on the openMeteo forecast is 12AM midnight on the day requested.
+
+  // So like if I get the forecast now (9:15pm on 5/13) the NWS forecast will come back
+  // with a starttime of 9:00PM on 5/13, and the open meteo will come back with a starttime
+  // of 12:00AM on 5/13.
+
+  // So we need to cut down the openMeteo forecast to match the NWS forecast.
+  const { time } = openMeteoForecast.hourly;
+
+  for (let i = 0; i < time.length; i++) {
+    let omTime = new Date(time[i]);
+    let nwsTime = new Date(starttime);
+
+    if (Math.abs(nwsTime - omTime) === 0) {
+      startIndex = i;
+    }
+  }
+
+  let newTime = time.slice(startIndex, time.length);
+  let newOpenMeteoForecast = {
+    ...openMeteoForecast,
+    hourly: {
+      ...openMeteoForecast.hourly,
+      time: newTime,
+    },
+  };
+
+  return newOpenMeteoForecast;
+}
+
 function combineForecasts(nwsForecast, openMeteoForecast) {
   console.log("\n \n \n");
 
+  const syncedOMForecast = syncOpenMeteoForecast(
+    nwsForecast[0].startTime,
+    openMeteoForecast
+  );
+
   for (let i = 0; i < nwsForecast.length; i++) {
-    const { hourly } = openMeteoForecast;
+    const { hourly } = syncedOMForecast;
     const {
       apparentTemperature,
       cloudCover,
@@ -348,20 +388,9 @@ function combineForecasts(nwsForecast, openMeteoForecast) {
       sunshineDuration,
       uvIndex,
       visibility,
-      time,
+      surfacePressure,
+      pressureMsl,
     } = hourly;
-
-    console.log(
-      new Date(nwsForecast[i].startTime).toLocaleString("en-US", {
-        timeZone: "America/Los_Angeles",
-      }),
-      nwsForecast[i].temperature,
-      Math.round(apparentTemperature[i]),
-      new Date(time[i]).toLocaleString("en-US", {
-        timeZone: "America/Los_Angeles",
-      }),
-      nwsForecast[i].startTime === time[i]
-    );
 
     let newPeriod = {
       ...nwsForecast[i],
@@ -371,6 +400,8 @@ function combineForecasts(nwsForecast, openMeteoForecast) {
       sunshineDuration: sunshineDuration[i],
       uvIndex: uvIndex[i],
       visibility: visibility[i],
+      surfacePressure: surfacePressure[i],
+      pressureMsl: pressureMsl[i],
     };
 
     nwsForecast[i] = newPeriod;
