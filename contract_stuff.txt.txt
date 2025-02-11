@@ -1,0 +1,136 @@
+This assumes David wants to provide business requirements for the code piecemeal as part of production. Ie, 'an iterator that extracts the data' instead of 'Re-write our /criteria/names API route to take names as an array and return all the matching names'
+
+Shirk will act as the product manager and technical architect for this project, meaning they will have control over the requirements, timeline, scope and execution of the project.
+
+Shirk will be responsible for creating and adapting the technical architecture of the project, to include the software systems, data model and data flow, considerations of scalability, dependency management, deployment.
+
+(list other responsibilities here)
+
+Developer will act as a 'prototyping code monkey', taking Shirks description of how the software should work and writing the necessary code according to their interpretation. Shirk will be responsible for evaluating the code written to make sure it meets the technical description given.
+
+Developer gives no estimate on the timeline of production.
+
+Developer takes no responsibility for ensuring the software meet any specific requirement as they are not provided up front.
+
+Developer will take Shirks description of
+
+If insufficient technical description is given, Developer will make their best guess?
+
+Sufficient technical description is provided as a complete overview of the changes that will be made to the function of the prototype.
+
+If insufficient technical description is unable to be given by Shirk, Developer will first inform Shirk, then come up with and build their own interpretation of Shirks description using their best judgement and good coding practices etc.
+
+Sufficient technical description to include what changes will be made to the prototype on a technical level, including descriptions of how the necessary software components that are being added or updated will function. How will the new shit work with the old shit.
+
+Can I do an example for how we built some shit? Like when we added something to the old prototype? Maybe when we did the progressive selection thing? Like when you pick criteria names and then it returns matching conlcusion names.
+
+Developer takes no responsibility for the overall function, performance, usefulness, stability, and maintainability of the software created during the prototyping process.
+
+Developer will not be able to ensure that code built during the prototype matches the architecture that Shirk provides, unless it is provided as a complete technical description.
+
+Developer will not provide warranty or support services on the software created.
+
+Developer will build and install system on Shirks environment.
+
+Holy shit can I big dick him here and write two contracts? Like one where David is the technical manager, and then one where I'm the technical manager? And be like hey I'm fine with either of these which one do you want to do. OOh this is kinda good I like this.
+
+I could also say something like I know you want to do this stuff for the prototype but obviously once we want to build the real deal you'll want someone who has more than a few hours availability to be in charge of the tech here, especially if you're going to bring on other people.
+
+I know this looks like I'm not trying to take responsibility of the function of the software, but I'm only setting this up for the prototyping phase since we don't have set requirements and you're in charge of deciding how the software will be built as we go along.
+
+---
+We don't have user requirements or acceptance tests for the proof of concept, so I can't build and deliver it on my own independently since I need you to check my work. If you want me to be able to build and deliver this on my own then we need to nail down the requirements.
+
+There aren't set requirements for the proof of concept, so I'm not able to go and develop it independently because I'm unable to tell if what I'm building meets the mark or not. You can have me take my best guess, but it'll have to be clear in the contract that I can't guarantee what I make will meet any specific requirements. 
+
+
+---
+
+Ok, gotcha. We'll continue the prototyping process we were following before. I'll write up a new statement of work to reflect how we want to continue building out the the prototype. I'm busy this week so it will probably be next week that I'll get it over to you. I can install the prototype in your environment and we'll continue to work on it as we have been.
+
+You've set up our prototyping process such that you are in charge of how the prototype will be built and work overall as the technical architect and product manager. As of right now, you are also the only one who fully understands the scope and desired user experience of your proposed software idea. This means that I don't have the resources (i.e. user requirements) or authority to manage the project independently and ensure the software we build meets expectations. Progress relies on me making my best guess at translating your high-level descriptions of how aspects of the prototype should function into working code in our prototype codebase. I'm operating with the expectation that you'll provide feedback on my implementation in order to move the prototype in the right direction according to your plan as architect and product manager. This is perfectly acceptable for working on low-fidelity technical prototypes for purely testing and requirements gathering purposes, without expecting delivery of a finished product. However, this will need to change in the future if you want me to be responsible for delivering and supporting a finished software product as described in the terms of the contract you've drafted. Without clearly defined user requirements, there is far too much risk in building the wrong thing for me to agree to manage the project and be responsible for delivering finished software that meets expectations. But, I am more than happy to continue following your process for building prototype(s) under these assumptions.
+
+basically the main thing I'm trying to say is that the current process is ok to follow as long as it's clear that I (mitchell) am not responsible for delivering this product, and am only focused on writing the code according to Davids plan. If David still wants to deliver the software we're working on right now we can but he's gotta be responsible for it.
+
+You've set up this current phase of prototyping such that you are acting as the product manager and technical architect, as well as the only one who knows the desired user requirements. This means that I don't have the tools to manage the project independently and ensure it fulfills specific requirements. Progress relies on getting your feedback on my best guess at how to implement your high-level descriptions of how the software could function. e.g. to make the 'iterative loop that stores and retrieves data', I come up with a way to build what I imagine this system is in the existing prototype codebase and you look at how my implementation works to make sure it functions as you expect. If I don't have user requirements that I can use as concrete acceptance tests for my implementation, and you don't have the availability to give feedback on my best guess in our prototype, it means that the project is moving forward without any management or oversight. This is perfectly acceptable for working on a low-fidelity prototype for purely testing purposes where I'm not responsible for delivering anything specific. However, this will need to change in the future if you want me to be responsible for actually delivering and supporting this product as described in the terms of the contract you drafted.
+
+---
+
+I'm simply making my best guess on how to implement your high level business requirements for how the software should function (eg, the iterative loop for data storage and retrieval that we talked about).
+
+Disclaimer though (maybe we put this in the contract...)
+However, if you want to be the product manager/technical architect and not set specific user requirements, it's your responsibility to make sure that the work that I'm doing is furthering the project. It also means that when you don't have availability, the project is not being managed. I'm happy to go forward and make my best guess for how things should work, as long as it's clear that I don't have the tools to manage the project independently and ensure it meets any specific standards. I can make my best guess for how to implement your high level descriptions of how the product should work, eg 'an iterative loop for data storage and retrieval' can mean many different things and be built in many different ways. I could test my interpretation of this against the user requirements if I had them lol, but I don't so I'm totally in the dark. If you want me to come up with the implementation, you aren't available to review how it works, and I don't have user requirements to test it against, then we're moving the project forward with no guarantee that we're building the right thing. This is perfectly acceptable for working on a low-fidelity prototype in a sandbox where the quality and maintainability of the prototype doesn't matter, but of course if you want to ship this someone will need to be committed to being in charge of the product.
+
+We can do prototyping with this shitty management for now, assuming my ass is covered in the contract for not being able to deliver anything that meets specific requirements since you don't want to set requirements at this stage of development.
+
+
+
+Presentation Page:
+
+#### How the software is used
+* Usually defined as user stories.
+* Creates the requirements how the software must work.
+* Should exclude technical details not visible to the user.
+* Having control over how the software is used only requires a few hours of planning time.
+
+---
+#### User Stories
+Short, simple descriptions of a feature or functionality from the perspective of the end user.
+* Make the requirements easy to understand and prioritize.
+* Become functional test criteria for acceptance tests.
+* Align all the stakeholders on what is being made.
+
+Most detailed form of the user stories are the wireframes. They lay out the exact way the user will be able to interact with the product.
+
+---
+#### How the software works
+* Opinionated, with multiple right answers, and ever-changing. Also harder to understand.
+* Rough implementation plan is worthwhile, but needs to be adaptable.
+* Functions in a way that meets the requirements.
+* Having control over how the software works will require hundreds of hours, intimate knowledge of all of the tools and components being used, and 'how' it works will always be an ever-moving target.
+
+---
+Making requirements for how the software works is bad.
+
+Short answer: Way, way too much room for interpretation. The only way to clearly describe exactly how the code should work is to write the code.
+
+* Harder to define the requirements, requires quite a bit of specific technical description, as well as consideration for how they will interact with each other/integrate with an existing system.
+* Is exclusionary to other ways the software could work, the other 'right answers' so to speak.
+* Sets the architecture in stone when it should be flexible as the project evolves.
+* Once the architecture is built, David sees it as something that I own instead of something that he owns. When he wants to add something new to our system that conflicts with something old that he wanted put in, it's up to me to figure out that 1. there's a conflict and 2. how to resolve it.
+* Acceptance test requires having to review all of the code that was created to see if it meets the requirement, which is also opinionated. The less defined the requirement the more up for interpretation it is and therefore the harder it is to test.
+* Incentivizes making requirements that are 'generic' or 'general use', to avoid having to address the constraints of listing specific functions. Leaves room for interpretation. It's like saying you want the system to be 'optimized' or 'extensible', which isn't a description of how it will work in an optimized or extensible way.
+
+What's an example of a technical requirement where the implementation can be opinionated?
+
+The most accurate technical requirements description is the actual code. It perfectly describes what the system needs to do.
+
+Testing requirements for how the software should work is not scalable if David is the only one who can test them. To ensure the software meets these kind of requirements, David needs to evaluate all of the code. Because we could have a working solution that uses a different architecture and then it wouldn't meet the requirements. The only way to know would be to inspect the code.
+
+If I bring the code to you all at the end, then we might have wasted a ton of time building it using the wrong architecture. We have done this before.
+
+We shouldn't build on top of the wrong architecture. The only way to avoid this is for you to manually inspect how the solution works to see if it meets the technical requirements. 
+
+Can I use an example here? Like here is this feature and here is the code that's required to make it.
+
+I can check if the code that I write works to fulfill the user story, but only you can check the code to see if it's to your technical design.
+
+The main message that I'm trying to hammer home is that it's inefficient to try and set technical requirements for how the software should work.
+* I can't check the code on my own to see if I'm hitting the objectives or not
+* How the software works will change over time, and should be flexible instead of fixed
+* 
+
+---
+
+David is trying to give me requirements for how the software should work, not how it should be able to be used. 
+
+David is giving me ideas for how the software should work that are *untested*. Ie, he isn't checking his math before he tells me how to solve the problem.
+
+Starting a software project without well-defined requirements is like sailing without a compass. We will move forward, but there's no guarantee we'll reach our desired destination.
+
+Should be able to envision success on this project.
+
+
+---
+
+The key thing I'm trying to communicate is that it takes a LOT of effort to communicate successfully about the technology, and not that much effort to communicate effectively about the design.
