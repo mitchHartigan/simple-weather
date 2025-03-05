@@ -31,16 +31,18 @@ export function AtAGlance(props) {
 
 const Container = styled.div`
   padding: 0px 20px 20px 20px;
-  width: 500px;
+  width: 100%;
   border-radius: 5px;
   background-color: #45415c;
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
+  box-sizing: border-box;
+  height: 20vh;
 `;
 
 const Body = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
 `;
 

@@ -110,7 +110,11 @@ export default function ForecastGraph(props) {
         </ResponsiveContainer>
 
         <ResponsiveContainer height={120}>
-          <LineChart data={graphData} syncId="balls">
+          <LineChart
+            data={graphData}
+            syncId="balls"
+            onMouseUp={() => console.log("ayyyy lmaooo")}
+          >
             <YAxis width={30} tick={{ fill: "white", fontFamily: "Roboto" }} />
             <XAxis
               interval={2}
@@ -120,6 +124,7 @@ export default function ForecastGraph(props) {
             />
             <CartesianGrid strokeDasharray="5" vertical={false} />
             <Tooltip
+              active={false}
               contentStyle={{ borderRadius: "5px" }}
               labelStyle={{ color: "#45415c" }}
               labelFormatter={(value) => `${value}:00`}
@@ -211,36 +216,6 @@ export default function ForecastGraph(props) {
             />
           </LineChart>
         </ResponsiveContainer>
-
-        <ResponsiveContainer height={120}>
-          <LineChart data={graphData} syncId="balls">
-            <YAxis width={25} tick={{ fill: "white", fontFamily: "Roboto" }} />
-            <XAxis
-              dataKey={"time"}
-              tick={{ fill: "white", fontFamily: "Roboto" }}
-              padding={{ left: 0, right: 15 }}
-            />
-            <CartesianGrid strokeDasharray="5" vertical={false} />
-            <Tooltip
-              contentStyle={{ borderRadius: "5px" }}
-              labelStyle={{ color: "#45415c" }}
-              itemStyle={{ fontFamily: "Roboto", fontSize: "14px" }}
-              isAnimationActive={false}
-            />
-            {graphData.map((period, i) => {
-              if (period.time === "00") {
-                return <ReferenceLine x={i} stroke="lightgray" />;
-              }
-            })}
-            <Line
-              dataKey={"surfacePressure"}
-              stroke="blue"
-              strokeWidth={3}
-              type="monotone"
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
       </Body>
     </Container>
   );
@@ -249,12 +224,13 @@ export default function ForecastGraph(props) {
 const Container = styled.div`
   display: flex;
   padding: 20px;
+  box-sizing: border-box;
   padding-top: 40px;
-  margin: 20px;
+  margin: 10px 0px 20px 0px;
   border-radius: 5px;
   background-color: #45415c;
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
-  width: 67vw;
+  width: 100%;
 `;
 
 const Body = styled.div`

@@ -50,6 +50,7 @@ const Container = styled.div`
   border-radius: 5px;
   background-color: #45415c;
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
+  box-sizing: border-box;
 `;
 
 const Body = styled.div`

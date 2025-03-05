@@ -114,23 +114,16 @@ function genDailyForecast(weeklyForecastPeriods) {
       single,
       temperature: null,
       icon: null,
-      humidity: null,
       precipitation: null,
     };
 
     periodMap[key].forEach((period, i) => {
-      const {
-        icon,
-        temperature,
-        relativeHumidity,
-        probabilityOfPrecipitation,
-      } = period;
+      const { icon, temperature, probabilityOfPrecipitation } = period;
 
       if (single) {
         combinedPeriod.canonDate = formatDate(period.startTime);
         combinedPeriod.temperature = temperature;
         combinedPeriod.icon = icon;
-        combinedPeriod.humidity = relativeHumidity.value;
         combinedPeriod.precipitation = probabilityOfPrecipitation.value;
         return;
       }
@@ -139,7 +132,6 @@ function genDailyForecast(weeklyForecastPeriods) {
         combinedPeriod.canonDate = formatDate(period.startTime);
         combinedPeriod.temperature = { high: temperature, low: "n/a" };
         combinedPeriod.icon = { high: icon, low: "n/a" };
-        combinedPeriod.humidity = { high: relativeHumidity.value, low: "n/a" };
         combinedPeriod.precipitation = {
           high: probabilityOfPrecipitation.value,
           low: "n/a",
@@ -149,7 +141,6 @@ function genDailyForecast(weeklyForecastPeriods) {
 
       combinedPeriod.temperature.low = temperature;
       combinedPeriod.icon.low = icon;
-      combinedPeriod.humidity.low = relativeHumidity.value;
       combinedPeriod.precipitation.low = probabilityOfPrecipitation.value;
       return;
     });

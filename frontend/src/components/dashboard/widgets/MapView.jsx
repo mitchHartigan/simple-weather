@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {
   MapContainer,
   TileLayer,
+  Marker,
+  Popup,
   useMapEvents,
   FeatureGroup,
   Rectangle,
@@ -29,13 +31,21 @@ export function MapView(props) {
     return null;
   };
 
+  // const Cursor = () => {
+  //   return (
+  //     <Circle
+  //       center={coordinates}
+  //       radius={100}
+  //       pathOptions={{ color: "#45415c" }}
+  //     />
+  //   );
+  // };
+
   const Cursor = () => {
     return (
-      <Circle
-        center={coordinates}
-        radius={100}
-        pathOptions={{ color: "#45415c" }}
-      />
+      <Marker position={coordinates}>
+        <Popup>Ayy lmao</Popup>
+      </Marker>
     );
   };
 
@@ -52,11 +62,16 @@ export function MapView(props) {
 
   return (
     <Container>
-      <div style={{ width: "800px", height: "500px" }}>
+      <div style={{ width: "50vw", height: "45vh" }}>
         <MapContainer center={[lat, lng]} zoom={13}>
-          <TileLayer
+          {/* <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          /> */}
+          <TileLayer
+            maxZoom={17}
+            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+            attribution={`Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)`}
           />
           <ClickListener />
           <FeatureGroup pathOptions={{ color: "#d54c7e" }}>

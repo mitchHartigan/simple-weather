@@ -26,6 +26,7 @@ export function DailyForecast(props) {
 
   return (
     <Container>
+      <Title>Todays Forecast</Title>
       <ChartBody>
         <ResponsiveContainer>
           <AreaChart data={graphData}>
@@ -38,7 +39,7 @@ export function DailyForecast(props) {
             />
             <XAxis
               dataKey="time"
-              padding={{ left: 15, right: 15 }}
+              padding={{ left: 5, right: 5 }}
               tick={{ fill: "white", fontFamily: "Roboto" }}
             />
             <Area
@@ -67,10 +68,14 @@ export function DailyForecast(props) {
 }
 
 const IconRow = styled.div`
-  width: 25vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+const Title = styled.h3`
+  margin: 0px 0px 10px 0px;
 `;
 
 const ImgBox = styled.div`
@@ -87,21 +92,23 @@ const Img = styled.img`
 
 const Container = styled.div`
   margin: 10px 0px 10px 0px;
-  padding: 20px;
+  padding: 20px 25px 20px 20px;
   border-radius: 5px;
   background-color: #45415c;
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
-  width: 500px;
+  box-sizing: border-box;
+  height: 25vh;
 `;
 
 const ChartBody = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 25vw;
   height: 12vh;
+  margin-left: -10px;
 `;
 
 const Text = styled.p`
   margin: 0px;
+  margin-top: 15px;
 `;

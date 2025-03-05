@@ -60,7 +60,9 @@ const Container = styled.div`
   border-radius: 5px;
   background-color: #45415c;
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075);
-  width: 500px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 50vh;
 `;
 
 const Images = styled.div`
